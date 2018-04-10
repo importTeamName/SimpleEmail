@@ -13,6 +13,7 @@ import javax.swing.JMenu;
 import javax.swing.JButton;
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
@@ -136,11 +137,14 @@ public class EmailGUI {
 		MailboxScreen.add(lblwelcome);
 		
 		JMenu mnActiveAccount = new JMenu("Active Account");
-		mnActiveAccount.setBounds(10, 66, 107, 22);
+		/*mnActiveAccount.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.)
+			}
+		});*/
+		mnActiveAccount.setBounds(31, 46, 126, 16);
 		MailboxScreen.add(mnActiveAccount);
-		
-		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
-		mnActiveAccount.add(mntmNewMenuItem);
 		
 		JButton btnInbox = new JButton("Inbox");
 		btnInbox.setBounds(31, 121, 89, 23);
@@ -209,7 +213,7 @@ public class EmailGUI {
 				if (name.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(dialog,"Must enter a username");
 				}
-				else if (login1.getText().isEmpty()) {
+				else if ((choice == 1 || choice == 2) && login1.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(dialog,"Must enter a password");
 				}
 				else if (choice == 1) {
@@ -220,15 +224,17 @@ public class EmailGUI {
 					else {JOptionPane.showMessageDialog(dialog,"Passwords must match");}
 				}
 				else if (choice == 2) {
-					//Call to create account
-					dialog.dispose();
-				}
-				else if (choice == 3) {
 					int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you wish to delete this account?", "Confirm Choice", 2);
 					if (result == JOptionPane.YES_OPTION) {
 						//Call to delete user
 						dialog.dispose();
 					}
+					//Call to create account
+					dialog.dispose();
+				}
+				else if (choice == 3) {
+					//Call to create account
+					dialog.dispose();
 				}
 				else if (choice == 4) {
 					int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you wish to delete this account?", "Confirm Choice", 2);
@@ -255,5 +261,4 @@ public class EmailGUI {
 		dialog.pack();
 		dialog.setVisible(true);	
 	}
-	
 }
