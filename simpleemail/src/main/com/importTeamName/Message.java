@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.Vector;
 /**
  * Holds a email message and related information
  * @author Daniel Weber
@@ -11,68 +12,101 @@ public class Message {
     public String text;
     public boolean markedForDelete; // used for deleting permanately from trash
     public int id;
+    public Account sender;
+    public Vector<Account> receivers = new Vector<Account>();
 
     // constructor
-    public Message(String subject, LocalDateTime date, String text) {
+    public Message(String subject, LocalDateTime date, String text,Account sender, Vector<Account> Recievers) {
         this.subject = subject;
         this.date = date;
         this.text = text;
         this.markedForDelete = false;
         this.id = text.hashCode();
+        this.sender = sender;
+        for(Account a : Recievers)
+        {
+        	this.receivers.add(a);
+        }
     }
 
     // Not implemented yet
 
-    // public Address getSender() {
-    //     return this.sender;
-    // }
-
-    // public void setSender(Address sender) {
-    //     this.sender = sender;
-    // }
-
-    // public Address getReceiver() {
-    //     return this.receiver;
-    // }
-
-    // public void setReceiver(Address receiver) {
-    //     this.receiver = receiver;
-    // }
-
-
-    public String getSubject() {
-        return this.subject;
+     public Account getSender()
+     {
+         return this.sender;
+     }
+     /**
+      * @param sender Account to send to 
+      */
+     public void setSender(Account sender)
+     {
+         this.sender = sender;
+     }
+     /**
+      * 
+      * @return List of all accounts the message will go to
+      */
+     public Vector<Account> getReceivers()
+     {
+         return this.receivers;
+     }
+     /**
+      * @param receiver List of accounts the message will go to
+      */
+    public void addReceiver(Account receiver)
+    {
+        this.receivers.add(receiver);
     }
 
-    public void setSubject(String subject) {
+    /**
+     * 
+     * @return subject of the message
+     */
+    public String getSubject()
+    {
+        return this.subject;
+    }
+    /**
+     * 
+     * @param subject subject of the message
+     */
+    public void setSubject(String subject)
+    {
         this.subject = subject;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDateTime getDate()
+    {
         return this.date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDateTime date)
+    {
         this.date = date;
     }
 
-    public String getText() {
+    public String getText()
+    {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(String text)
+    {
         this.text = text;
     }
 
-    public boolean getMarkedForDelete() {
+    public boolean getMarkedForDelete()
+    {
         return markedForDelete;
     }
 
-    public void setMarkedForDelete(boolean markedForDelete) {
+    public void setMarkedForDelete(boolean markedForDelete)
+    {
         this.markedForDelete = markedForDelete;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 }

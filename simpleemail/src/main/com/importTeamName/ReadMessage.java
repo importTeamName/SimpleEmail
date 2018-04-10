@@ -21,22 +21,13 @@ import javax.swing.UIManager;
 
 public class ReadMessage {
 
-	private JFrame frame;
+	public JFrame frame;
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ReadMessage window = new ReadMessage();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+       
     }
 
     /**

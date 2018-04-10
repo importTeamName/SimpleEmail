@@ -14,6 +14,7 @@ public class MailBox {
      */
     public MailBox(String name) {
         this.name = name;
+        messages = new ArrayList<Message>();
     }
 
 
@@ -33,5 +34,12 @@ public class MailBox {
         this.name = name;
     }
 
+    /*For adding messages to mailbox
+     * 
+     */
+    public void addMessageToMailBox(Message m)
+    {
+    	messages.add(m);
+    }
 
 }
