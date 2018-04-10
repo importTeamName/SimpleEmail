@@ -28,7 +28,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import javax.swing.JList;
+
+import java.util.ArrayList;
 import java.util.Vector;
+import java.awt.Component;
 
 public class EmailGUI {
 
@@ -50,7 +53,7 @@ public class EmailGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 638, 381);
+		frame.setBounds(100, 100, 700, 380);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
@@ -119,7 +122,7 @@ public class EmailGUI {
 				ManageDialog(3);
 			}
 		});
-		btnaddaccount.setBounds(21, 20, 107, 23);
+		btnaddaccount.setBounds(20, 20, 107, 23);
 		
 		JButton btndeleteaccount = new JButton("Delete Account");
 		btndeleteaccount.addActionListener(new ActionListener() {
@@ -127,34 +130,42 @@ public class EmailGUI {
 				ManageDialog(4);
 			}
 		});
-		btndeleteaccount.setBounds(138, 20, 120, 23);
+		btndeleteaccount.setBounds(160, 20, 120, 23);
 		
 		JLabel lblwelcome = new JLabel("Welcome, User"); //access current user
-		lblwelcome.setBounds(434, 24, 178, 14);
+		lblwelcome.setBounds(454, 24, 178, 14);
 		MailboxScreen.setLayout(null);
 		MailboxScreen.add(btnaddaccount);
 		MailboxScreen.add(btndeleteaccount);
 		MailboxScreen.add(lblwelcome);
 		
-		JMenu mnActiveAccount = new JMenu("Active Account");
-		mnActiveAccount.addActionListener(new ActionListener() {
+		JButton btnInbox = new JButton("Inbox");
+		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				//if (e.)
+			public void mouseClicked(MouseEvent e) {
+				//change view to inbox
 			}
 		});
-		mnActiveAccount.setBounds(31, 46, 126, 16);
-		MailboxScreen.add(mnActiveAccount);
-		
-		JButton btnInbox = new JButton("Inbox");
 		btnInbox.setBounds(31, 121, 89, 23);
 		MailboxScreen.add(btnInbox);
 		
 		JButton btnSent = new JButton("Sent");
+		btnLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//change view to sent
+			}
+		});
 		btnSent.setBounds(31, 155, 89, 23);
 		MailboxScreen.add(btnSent);
 		
 		JButton btnTrash = new JButton("Trash");
+		btnLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// change view to trash
+			}
+		});
 		btnTrash.setBounds(31, 189, 89, 23);
 		MailboxScreen.add(btnTrash);
 		
@@ -171,18 +182,38 @@ public class EmailGUI {
 				ComposeMessage newMessage = new ComposeMessage();
 			}
 		});
-		btnCompose.setBounds(138, 46, 188, 23);
+		btnCompose.setBounds(160, 46, 188, 23);
 		MailboxScreen.add(btnCompose);
-		DefaultListModel<String> model = new DefaultListModel<String>();
-		//Sample Elements to show idea
-		model.addElement("This is a list");
-		model.addElement("of Strings that will");
-		model.addElement("be a list of emails");
 		
-		JList<String> list = new JList<>();
-		list.setBounds(140, 80, 472, 251);
+		JPopupMenu accountMenu = new JPopupMenu();
+		//populate account Menu
+		//if no accounts, put a no account item
+		accountMenu.add(new JMenuItem("Hello"));
+		
+		JButton btnChooseAccount = new JButton("Accounts Menu");
+		btnChooseAccount.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				accountMenu.show(btnChooseAccount, btnChooseAccount.getX(), btnChooseAccount.getY()-btnChooseAccount.getHeight());
+			}
+		});
+		btnChooseAccount.setBounds(10, 46, 140, 23);
+		MailboxScreen.add(btnChooseAccount);
+		
+		JLabel lblCurrentAccount = new JLabel("Current Account:");
+		lblCurrentAccount.setBounds(20, 81, 107, 14);
+		MailboxScreen.add(lblCurrentAccount);
+		
+		//Sample Elements to show idea
+		ArrayList<String> model = new ArrayList<>();
+		model.add("This is a list");
+		model.add("of Strings that will");
+		model.add("be a list of emails");
+		
+		JList<String> list = new JList<>(model.toArray(new String[0]));
+		list.setBounds(160, 80, 472, 251);
 		MailboxScreen.add(list);
-		list.setModel(model);
+		
 		
 	}
 	
@@ -260,5 +291,22 @@ public class EmailGUI {
 		
 		dialog.pack();
 		dialog.setVisible(true);	
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 }
