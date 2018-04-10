@@ -1,3 +1,5 @@
+package com.importteamname.simpleemail;
+
 import java.util.ArrayList;
 /**
  * Stores messages and fetches data from the remote site

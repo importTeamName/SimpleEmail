@@ -1,3 +1,5 @@
+package com.importteamname.simpleemail;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

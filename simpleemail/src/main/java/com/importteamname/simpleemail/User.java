@@ -1,3 +1,5 @@
+package com.importteamname.simpleemail;
+
 /**
  * Stores information relevant to a single account
  * @author Benjamin Lanier

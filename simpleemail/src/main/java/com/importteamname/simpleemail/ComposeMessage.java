@@ -2,6 +2,9 @@
  * Class for the pop up window to read a message
  * @author Daniel Weber
  */
+
+package com.importteamname.simpleemail;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
