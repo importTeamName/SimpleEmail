@@ -33,7 +33,7 @@ import java.util.Vector;
 public class EmailGUI {
 
 	private JFrame frame;
-	private JTextField LoginText;
+	private JTextField PasswordText;
 	private JTextField UserText;
 
 	/**
@@ -58,15 +58,15 @@ public class EmailGUI {
 		frame.getContentPane().add(LoginScreen, "name_443823858163679");
 		LoginScreen.setLayout(null);
 		
-		LoginText = new JTextField();
-		LoginText.setBounds(293, 102, 86, 20);
-		LoginScreen.add(LoginText);
-		LoginText.setColumns(10);
-		
 		UserText = new JTextField();
-		UserText.setBounds(293, 133, 86, 20);
+		UserText.setBounds(293, 102, 86, 20);
 		LoginScreen.add(UserText);
 		UserText.setColumns(10);
+		
+		PasswordText = new JTextField();
+		PasswordText.setBounds(293, 133, 86, 20);
+		LoginScreen.add(PasswordText);
+		PasswordText.setColumns(10);
 		
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setBounds(221, 105, 62, 14);
@@ -137,12 +137,12 @@ public class EmailGUI {
 		MailboxScreen.add(lblwelcome);
 		
 		JMenu mnActiveAccount = new JMenu("Active Account");
-		/*mnActiveAccount.addActionListener(new ActionListener() {
+		mnActiveAccount.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (e.)
+				//if (e.)
 			}
-		});*/
+		});
 		mnActiveAccount.setBounds(31, 46, 126, 16);
 		MailboxScreen.add(mnActiveAccount);
 		
