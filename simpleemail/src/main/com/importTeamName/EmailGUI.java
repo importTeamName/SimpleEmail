@@ -31,15 +31,17 @@ import java.util.Vector;
 
 public class EmailGUI {
 
-	private JFrame frame;
-	private JTextField LoginText;
-	private JTextField UserText;
-
+	private JFrame		frame;
+	private JTextField	LoginText;
+	private JTextField	UserText;
+	private RemoteSite	CopyOfMasterSite;
+	private User		CurrentUser;
 	/**
 	 * Create the application.
 	 */
-	public EmailGUI() {
+	public EmailGUI(RemoteSite remSite) {
 		System.out.println("Creating an EmailGUI");
+		CopyOfMasterSite = remSite;
 		initialize();
 		frame.setVisible(true);
 	}
@@ -57,11 +59,13 @@ public class EmailGUI {
 		frame.getContentPane().add(LoginScreen, "name_443823858163679");
 		LoginScreen.setLayout(null);
 		
+		//Username
 		LoginText = new JTextField();
 		LoginText.setBounds(293, 102, 86, 20);
 		LoginScreen.add(LoginText);
 		LoginText.setColumns(10);
 		
+		//password
 		UserText = new JTextField();
 		UserText.setBounds(293, 133, 86, 20);
 		LoginScreen.add(UserText);
@@ -80,7 +84,21 @@ public class EmailGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//check for valid login
-				StartMailbox(e);
+				if(CopyOfMasterSite.userExists(LoginText.getText()))
+				{
+					if(CopyOfMasterSite.validatePassword(LoginText.getText(), UserText.getText()))
+					{
+						CurrentUser = CopyOfMasterSite.getUser(LoginText.getText());
+						StartMailbox(e);
+					}
+				}
+				else
+				{
+					JFrame dialog = new JFrame();
+					JOptionPane.showMessageDialog(dialog,"User does not exist");
+					dialog.getContentPane().setLayout(new GridLayout(4,2));
+				}
+				
 			}
 		});
 		btnLogin.setBounds(290, 164, 89, 23);
@@ -118,7 +136,7 @@ public class EmailGUI {
 				ManageDialog(3);
 			}
 		});
-		btnaddaccount.setBounds(21, 20, 107, 23);
+		btnaddaccount.setBounds(10, 20, 107, 23);
 		
 		JButton btndeleteaccount = new JButton("Delete Account");
 		btndeleteaccount.addActionListener(new ActionListener() {
@@ -126,9 +144,9 @@ public class EmailGUI {
 				ManageDialog(4);
 			}
 		});
-		btndeleteaccount.setBounds(138, 20, 120, 23);
+		btndeleteaccount.setBounds(122, 20, 120, 23);
 		
-		JLabel lblwelcome = new JLabel("Welcome, User"); //access current user
+		JLabel lblwelcome = new JLabel("Welcome, User");
 		lblwelcome.setBounds(434, 24, 178, 14);
 		MailboxScreen.setLayout(null);
 		MailboxScreen.add(btnaddaccount);
@@ -167,7 +185,7 @@ public class EmailGUI {
 				ComposeMessage newMessage = new ComposeMessage();
 			}
 		});
-		btnCompose.setBounds(138, 46, 188, 23);
+		btnCompose.setBounds(138, 46, 127, 23);
 		MailboxScreen.add(btnCompose);
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		//Sample Elements to show idea
@@ -176,7 +194,7 @@ public class EmailGUI {
 		model.addElement("be a list of emails");
 		
 		JList<String> list = new JList<>();
-		list.setBounds(140, 80, 472, 251);
+		list.setBounds(140, 80, 400, 200);
 		MailboxScreen.add(list);
 		list.setModel(model);
 		
@@ -186,7 +204,6 @@ public class EmailGUI {
 		//Populate the mailbox with things
 		CardLayout cl = (CardLayout)(frame.getContentPane().getLayout());
 		cl.next(frame.getContentPane());
-		
 	}
 	
 	/*
@@ -209,31 +226,62 @@ public class EmailGUI {
 				if (name.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(dialog,"Must enter a username");
 				}
-				else if (login1.getText().isEmpty()) {
+				else if ((choice == 1 | choice == 2) & login1.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(dialog,"Must enter a password");
 				}
+				
+				// Choice 1 = add user
 				else if (choice == 1) {
 					if ( login1.getText().equals(login2.getText())) {
 						//Call to add another user
+						if(CopyOfMasterSite.userExists(name.getText()))
+						{
+							//Username already exists
+						}
+						else
+						{
+							CopyOfMasterSite.createUser(name.getText(), login1.getText());
+						}
 						dialog.dispose();
 					}
 					else {JOptionPane.showMessageDialog(dialog,"Passwords must match");}
 				}
+				// Choice 2 = delete user
 				else if (choice == 2) {
-					//Call to create account
+					if(CopyOfMasterSite.userExists(name.getText()))
+					{
+						if(CopyOfMasterSite.validatePassword(name.getText(), login1.getText()))
+						{
+							int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you wish to delete this account?", "Confirm Choice", 2);
+							if (result == JOptionPane.YES_OPTION) {
+								//Call to delete user
+								CopyOfMasterSite.removeUser(name.getText());
+								dialog.dispose();
+							}
+						}
+					}
+					else
+					{
+						JFrame dialog = new JFrame();
+						JOptionPane.showMessageDialog(dialog,"User does not exist");
+						dialog.getContentPane().setLayout(new GridLayout(4,2));
+					}
+					
+				}
+				// Choice 3 = add account
+				else if (choice == 3) {
+					//Call to create account on the user that is associated
+					// with the open window
+					CopyOfMasterSite.getUser(CurrentUser.getUserName()).addAccount(name.getText(), "uah.edu", login1.getText());
 					dialog.dispose();
 				}
-				else if (choice == 3) {
-					int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you wish to delete this account?", "Confirm Choice", 2);
-					if (result == JOptionPane.YES_OPTION) {
-						//Call to delete user
-						dialog.dispose();
-					}
-				}
+
+				// Choice 4 = delete account
 				else if (choice == 4) {
 					int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you wish to delete this account?", "Confirm Choice", 2);
 					if (result == JOptionPane.YES_OPTION) {
 						//Call to delete account
+						CopyOfMasterSite.getUser(CurrentUser.getUserName()).removeAccount(name.getText());
 						dialog.dispose();
 					}
 				}

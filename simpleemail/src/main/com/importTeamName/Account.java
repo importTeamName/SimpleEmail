@@ -108,4 +108,26 @@ public class Account {
 		}
 		return null;
 	}
+	public MailBox getTrash()
+	{
+		for(MailBox m : mailBoxList)
+		{
+			if(m.getName().equals("Trash"))
+			{
+				return m;
+			}
+		}
+		return null;
+	}
+	public MailBox getSent()
+	{
+		for(MailBox m : mailBoxList)
+		{
+			if(m.getName().equals("Sent"))
+			{
+				return m;
+			}
+		}
+		return null;
+	}
 }

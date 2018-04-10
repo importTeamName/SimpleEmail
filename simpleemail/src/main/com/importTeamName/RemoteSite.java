@@ -14,6 +14,40 @@ public class RemoteSite {
 	}
 	
 	/**
+	 * 
+	 * @return
+	 */
+	public boolean userExists(String userName)
+	{
+		for( User u : users)
+		{
+			System.out.println("list: " + u.getUserName() + "  test: " + userName);
+			if(u.getUserName().equals(userName))
+			{
+				System.out.println();
+				return true;
+			}
+		}
+		System.out.println();
+		return false;
+	}
+	
+	public boolean validatePassword(String tempUser, String tempPass)
+	{
+		for( User u : users)
+		{
+			if(u.getUserName().equals(tempUser))
+			{
+				if(u.getPassword().equals(tempPass))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * This is the function that gets called when a new user is created
 	 * @param username new users username
 	 * @param pass new users password
@@ -28,17 +62,20 @@ public class RemoteSite {
 	 * -the 'Master' instance of a user is held here
 	 * @param userToRemove The username to be deleted
 	 */
-	public void removeUser(User userToRemove)
+	public void removeUser(String userToRemove)
 	{
 		int i = 0;
+		int indexOfRemove =0;
 		for(User tempUser: users)
 		{
-			if(tempUser.getUserName().equals(userToRemove.getUserName()))
+			if(tempUser.getUserName().equals(userToRemove))
 			{
-				users.remove(i);
+				indexOfRemove = i;
+				break;
 			}
 			i++;
 		}
+		users.remove(indexOfRemove);
 	}
 		
 	/*This function will act as a 'listener' to receive messages and send them to the correct accounts
@@ -91,5 +128,16 @@ public class RemoteSite {
 		}
 		//The return vector will be a list of all inboxes for each account of the input user
 		return tempAccounts;
+	}
+	
+	public User getUser(String userName)
+	{
+		for(User u: users)
+		{
+			if(u.getUserName().equals(userName)){
+				return u;
+			}
+		}
+		return (User)null;
 	}
 }

@@ -45,6 +45,34 @@ public class User {
 	  */
 	public void addAccount(String accName, String suffix, String accPass){
 		accounts.add(new Account(accName+"@"+suffix, accPass));
+		
+		for(Account a : accounts)
+		{
+			System.out.println("Acc: " + a.getAccountname());
+		}
+	}
+	public void removeAccount(String accName)
+	{
+		int i = 0;
+		boolean accFound = false;
+		for(Account a : accounts)
+		{
+			if(a.getAccountname().equals(accName))
+			{
+				accFound = true;
+				break;
+			}
+				
+		}
+		if(accFound)
+		{
+			accounts.remove(i);
+		}
+		
+		for(Account a : accounts)
+		{
+			System.out.println("Acc: " + a.getAccountname());
+		}
 	}
 	/*Gets list of accounts associated with user
 	 * 
@@ -68,5 +96,10 @@ public class User {
 				acc.addMessageToAccount(m);
 			}
 		}
+	}
+
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return password;
 	}
 }
