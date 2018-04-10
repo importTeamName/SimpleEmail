@@ -1,46 +1,33 @@
-import java.awt.EventQueue;
+/**
+ * Class for the main GUI for the SimpleEmail system
+ * Created using the WindowBuilder extension
+ * @author Alex Porter
+ */
 
+//Things specifically imported by us
+//---
+
+//Things imported by WindowBuilder
 import javax.swing.JFrame;
-import javax.swing.JToolBar;
-import java.awt.BorderLayout;
-import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import java.awt.GridLayout;
-import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.AbstractAction;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
-import javax.swing.Action;
+import java.awt.event.ActionEvent;
+
 import java.awt.CardLayout;
 import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JPopupMenu;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
-import javax.swing.JInternalFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ListModel;
 import javax.swing.JList;
-import javax.swing.JScrollPane;
-
-import java.util.ArrayList;
 import java.util.Vector;
-import java.awt.Choice;
-import javax.swing.AbstractListModel;
-import java.awt.List;
-import javax.swing.JScrollBar;
 
 public class EmailGUI {
 
@@ -49,26 +36,12 @@ public class EmailGUI {
 	private JTextField UserText;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EmailGUI window = new EmailGUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public EmailGUI() {
+		System.out.println("Creating an EmailGUI");
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -98,53 +71,69 @@ public class EmailGUI {
 		lblUsername.setBounds(221, 105, 62, 14);
 		LoginScreen.add(lblUsername);
 		
-		JLabel lblNewLabel = new JLabel("Password:");
-		lblNewLabel.setBounds(221, 136, 62, 14);
-		LoginScreen.add(lblNewLabel);
+		JLabel lblpassword = new JLabel("Password:");
+		lblpassword.setBounds(221, 136, 62, 14);
+		LoginScreen.add(lblpassword);
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//check for valid login???
+				//check for valid login
 				StartMailbox(e);
 			}
 		});
 		btnLogin.setBounds(290, 164, 89, 23);
 		LoginScreen.add(btnLogin);
 		
-		JLabel lblEnterLoginInformation = new JLabel("Enter Login Information");
-		lblEnterLoginInformation.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEnterLoginInformation.setBounds(221, 80, 158, 14);
-		LoginScreen.add(lblEnterLoginInformation);
+		JLabel lblEnterInfo = new JLabel("Enter Login Information");
+		lblEnterInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEnterInfo.setBounds(221, 80, 158, 14);
+		LoginScreen.add(lblEnterInfo);
 		
-		JButton btnNewButton = new JButton("Add User");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnadduser = new JButton("Add User");
+		btnadduser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ManageDialog(1);
 			}
 		});
-		btnNewButton.setBounds(10, 11, 89, 23);
-		LoginScreen.add(btnNewButton);
+		btnadduser.setBounds(10, 11, 89, 23);
+		LoginScreen.add(btnadduser);
 		
-		JButton btnNewButton_1 = new JButton("Delete User");
-		btnNewButton_1.setBounds(109, 11, 89, 23);
-		LoginScreen.add(btnNewButton_1);
+		JButton btndeleteuser = new JButton("Delete User");
+		btndeleteuser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ManageDialog(2);
+			}
+		});
+		btndeleteuser.setBounds(109, 11, 101, 23);
+		LoginScreen.add(btndeleteuser);
 		
 		JPanel MailboxScreen = new JPanel();
 		frame.getContentPane().add(MailboxScreen, "name_443823897215886");
 		
-		JButton btnNewButton_2 = new JButton("Add Account");
-		btnNewButton_2.setBounds(10, 20, 93, 23);
+		JButton btnaddaccount = new JButton("Add Account");
+		btnaddaccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ManageDialog(3);
+			}
+		});
+		btnaddaccount.setBounds(21, 20, 107, 23);
 		
-		JButton btnNewButton_3 = new JButton("Delete Account");
-		btnNewButton_3.setBounds(109, 20, 105, 23);
+		JButton btndeleteaccount = new JButton("Delete Account");
+		btndeleteaccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ManageDialog(4);
+			}
+		});
+		btndeleteaccount.setBounds(138, 20, 120, 23);
 		
-		JLabel lblNewLabel_1 = new JLabel("Welcome, User");
-		lblNewLabel_1.setBounds(434, 24, 178, 14);
+		JLabel lblwelcome = new JLabel("Welcome, User"); //access current user
+		lblwelcome.setBounds(434, 24, 178, 14);
 		MailboxScreen.setLayout(null);
-		MailboxScreen.add(btnNewButton_2);
-		MailboxScreen.add(btnNewButton_3);
-		MailboxScreen.add(lblNewLabel_1);
+		MailboxScreen.add(btnaddaccount);
+		MailboxScreen.add(btndeleteaccount);
+		MailboxScreen.add(lblwelcome);
 		
 		JMenu mnActiveAccount = new JMenu("Active Account");
 		mnActiveAccount.setBounds(10, 66, 107, 22);
@@ -170,54 +159,101 @@ public class EmailGUI {
 		lblActiveAccount.setBounds(31, 96, 86, 14);
 		MailboxScreen.add(lblActiveAccount);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(135, 96, 452, 235);
-		MailboxScreen.add(panel);
-		
 		Vector<JLabel> emails = new Vector<JLabel>();
-		JLabel mail1 = new JLabel("Email 1");
-		JLabel mail2 = new JLabel("Email 2");
-		mail1.setHorizontalAlignment(SwingConstants.LEFT);
-		emails.add(mail1);
-		panel.add(mail1);
-		emails.add(mail2);
-		panel.add(mail2);
 		
-		JButton btnComposeNewEmail = new JButton("Compose New Email");
-		btnComposeNewEmail.setBounds(138, 46, 127, 23);
-		MailboxScreen.add(btnComposeNewEmail);
+		JButton btnCompose = new JButton("Compose New Email");
+		btnCompose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ComposeMessage newMessage = new ComposeMessage();
+			}
+		});
+		btnCompose.setBounds(138, 46, 188, 23);
+		MailboxScreen.add(btnCompose);
+		DefaultListModel<String> model = new DefaultListModel<String>();
+		//Sample Elements to show idea
+		model.addElement("This is a list");
+		model.addElement("of Strings that will");
+		model.addElement("be a list of emails");
+		
+		JList<String> list = new JList<>();
+		list.setBounds(140, 80, 472, 251);
+		MailboxScreen.add(list);
+		list.setModel(model);
 		
 	}
 	
 	public void StartMailbox(MouseEvent e) {
+		//Populate the mailbox with things
 		CardLayout cl = (CardLayout)(frame.getContentPane().getLayout());
 		cl.next(frame.getContentPane());
 		
 	}
 	
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
+	/*
+	 * @param choice : 1 for add user, 2 for delete user, 3 for add account, 4 for delete account 
+	 */
+	void ManageDialog(int choice) {
+		JFrame dialog = new JFrame();
+		dialog.getContentPane().setLayout(new GridLayout(4,2));
+		
+		JTextField name = new JTextField();
+		JTextField login1 = new JTextField();
+		JTextField login2 = new JTextField();
+		String btnText;
+		if (choice == 1 || choice == 3) {btnText = "Create";}
+		else {btnText = "Delete";}
+		JButton gobutton = new JButton(btnText);
+		gobutton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (name.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(dialog,"Must enter a username");
 				}
-			}
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
+				else if (login1.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(dialog,"Must enter a password");
 				}
-			}
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
+				else if (choice == 1) {
+					if ( login1.getText().equals(login2.getText())) {
+						//Call to add another user
+						dialog.dispose();
+					}
+					else {JOptionPane.showMessageDialog(dialog,"Passwords must match");}
+				}
+				else if (choice == 2) {
+					//Call to create account
+					dialog.dispose();
+				}
+				else if (choice == 3) {
+					int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you wish to delete this account?", "Confirm Choice", 2);
+					if (result == JOptionPane.YES_OPTION) {
+						//Call to delete user
+						dialog.dispose();
+					}
+				}
+				else if (choice == 4) {
+					int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you wish to delete this account?", "Confirm Choice", 2);
+					if (result == JOptionPane.YES_OPTION) {
+						//Call to delete account
+						dialog.dispose();
+					}
+				}
 			}
 		});
+		
+		dialog.getContentPane().add(new JLabel("Username: "));
+		dialog.getContentPane().add(name);
+		if (choice == 1 || choice == 2) {
+			dialog.getContentPane().add(new JLabel("Password: "));
+			dialog.getContentPane().add(login1);
+		}
+		if (choice == 1) {
+			dialog.getContentPane().add(new JLabel("Repeat Password: "));
+			dialog.getContentPane().add(login2);
+		}
+		dialog.getContentPane().add(gobutton);
+		
+		dialog.pack();
+		dialog.setVisible(true);	
 	}
+	
 }

@@ -1,52 +1,33 @@
-import java.awt.EventQueue;
-
+/**
+ * Class for the pop up window to read a message
+ * @author Daniel Weber
+ */
 import javax.swing.JFrame;
-import javax.swing.BoxLayout;
-import java.awt.BorderLayout;
-import javax.swing.Box;
-import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Panel;
 import javax.swing.UIManager;
 
 public class ComposeMessage {
 
     private JFrame frame;
-    private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_2;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ComposeMessage window = new ComposeMessage();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
+    private JTextField from;
+    private JTextField to;
+    private JTextField subject;
+    
     /**
      * Create the application.
      */
     public ComposeMessage() {
         initialize();
+        frame.setVisible(true);
     }
 
     /**
@@ -55,7 +36,6 @@ public class ComposeMessage {
     private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 600, 479);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         
         JPanel panel = new JPanel();
@@ -75,20 +55,22 @@ public class ComposeMessage {
         lblSubject.setBounds(24, 87, 61, 16);
         panel.add(lblSubject);
         
-        textField = new JTextField();
-        textField.setBounds(89, 6, 484, 26);
-        panel.add(textField);
-        textField.setColumns(10);
+        from = new JTextField();
+        //populate the from field with the current account
+        from.setEnabled(false);
+        from.setBounds(89, 6, 484, 26);
+        panel.add(from);
+        from.setColumns(10);
         
-        textField_1 = new JTextField();
-        textField_1.setColumns(10);
-        textField_1.setBounds(89, 44, 484, 26);
-        panel.add(textField_1);
+        to = new JTextField();
+        to.setColumns(10);
+        to.setBounds(89, 44, 484, 26);
+        panel.add(to);
         
-        textField_2 = new JTextField();
-        textField_2.setColumns(10);
-        textField_2.setBounds(89, 82, 484, 26);
-        panel.add(textField_2);
+        subject = new JTextField();
+        subject.setColumns(10);
+        subject.setBounds(89, 82, 484, 26);
+        panel.add(subject);
         
         JTextPane textPane = new JTextPane();
         textPane.setBounds(0, 158, 600, 280);
@@ -103,6 +85,13 @@ public class ComposeMessage {
         JButton btnReply = new JButton("Send");
         btnReply.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		if (to.getText().isEmpty()) {
+        			JOptionPane.showMessageDialog(frame, "Please enter who the email is addressed to");
+        		}
+        		else {
+        			//SipmleEmail.SendMessage(to.getText(), subject.getText(), textPane.getText());
+        			frame.dispose();
+        		}
         	}
         });
         btnReply.setBounds(6, 6, 117, 29);
