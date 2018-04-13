@@ -98,14 +98,32 @@ public class ComposeMessage {
         			JOptionPane.showMessageDialog(frame, "Please enter who the email is addressed to");
         		}
         		else {
+
+                    // UNTESTED
+
         			//Create Message and send back to EmailGUI to be sent out
         			String[] rec = to.getText().split(",");
         			Vector<String> receivers = new Vector<String>(Arrays.asList(rec));
         			Message m = new Message(subject.getText(), LocalDateTime.now(), 
-							                textPane.getText(), CurrentAccount, receivers);
+                                            textPane.getText(), CurrentAccount, receivers);
+                                            
         			//Add new message to sent mailbox
-        			CurrentAccount.getSent().addMessageToMailBox(m);
-        			//Add new message to other's mailbox
+                    CurrentAccount.getSent().addMessageToMailBox(m);
+                    
+                    //Add new message to other's mailbox
+                    for (String _rec : receivers) {
+                        String _username = _rec.split("@")[0];
+                        System.out.printf("Username of recipitant: %s\n", _username);
+                        User _user = CopyOfMasterSite.getUser(_username);
+                        for (Account _acc: _user.getAccounts()) {
+                            if (_acc.getAccountname().equals(_rec)) {
+                                Mailbox inbox = _acc.getInbox();
+                                //System.out.printf("Mailbox %s\n", inbox.getName());
+                                inbox.addMessageToMailbox(m);
+                            }
+                        }
+                    }
+
         			CopyOfMasterSite.addMessage(m);
         			frame.dispose();
         		}
