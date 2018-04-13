@@ -3,12 +3,15 @@
  * @author Daniel Weber
  */
 
-package com.importteamname.simpleemail;
+//package com.importteamname.simpleemail;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
@@ -20,15 +23,19 @@ import javax.swing.UIManager;
 
 public class ComposeMessage {
 
-    private JFrame frame;
-    private JTextField from;
-    private JTextField to;
-    private JTextField subject;
+    private JFrame 		frame;
+    private JTextField 	from;
+    private JTextField 	to;
+    private JTextField 	subject;
+    private Account 	CurrentAccount;
+    private RemoteSite 	CopyOfMasterSite;
     
     /**
      * Create the application.
      */
-    public ComposeMessage() {
+    public ComposeMessage(Account a, RemoteSite CopyOfMasterSite) {
+    	CurrentAccount = a;
+    	this.CopyOfMasterSite = CopyOfMasterSite;
         initialize();
         frame.setVisible(true);
     }
@@ -58,8 +65,7 @@ public class ComposeMessage {
         lblSubject.setBounds(24, 87, 61, 16);
         panel.add(lblSubject);
         
-        from = new JTextField();
-        //populate the from field with the current account
+        from = new JTextField(CurrentAccount.getAccountname()); 
         from.setEnabled(false);
         from.setBounds(89, 6, 484, 26);
         panel.add(from);
@@ -92,7 +98,15 @@ public class ComposeMessage {
         			JOptionPane.showMessageDialog(frame, "Please enter who the email is addressed to");
         		}
         		else {
-        			//SipmleEmail.SendMessage(to.getText(), subject.getText(), textPane.getText());
+        			//Create Message and send back to EmailGUI to be sent out
+        			String[] rec = to.getText().split(",");
+        			Vector<String> receivers = new Vector<String>(Arrays.asList(rec));
+        			Message m = new Message(subject.getText(), LocalDateTime.now(), 
+							                textPane.getText(), CurrentAccount, receivers);
+        			//Add new message to sent mailbox
+        			CurrentAccount.getSent().addMessageToMailBox(m);
+        			//Add new message to other's mailbox
+        			CopyOfMasterSite.addMessage(m);
         			frame.dispose();
         		}
         	}
@@ -100,10 +114,13 @@ public class ComposeMessage {
         btnReply.setBounds(6, 6, 117, 29);
         panel_1.add(btnReply);
         
+        JLabel lblToInstructions = new JLabel("To send to 1+ people, comma separate addresses, no spaces");
+        lblToInstructions.setBounds(133, 13, 421, 14);
+        panel_1.add(lblToInstructions);
+        
         Panel panel_2 = new Panel();
         panel_2.setBackground(UIManager.getColor("Button.background"));
         panel_2.setBounds(0, 438, 600, 19);
         frame.getContentPane().add(panel_2);
     }
-    
 }

@@ -1,4 +1,4 @@
-package com.importteamname.simpleemail;
+//package com.importteamname.simpleemail;
 
 import java.time.LocalDateTime;
 import java.util.Vector;
@@ -15,17 +15,17 @@ public class Message {
     public boolean markedForDelete; // used for deleting permanately from trash
     public int id;
     public Account sender;
-    public Vector<Account> receivers = new Vector<Account>();
+    public Vector<String> receivers = new Vector<String>();
 
     // constructor
-    public Message(String subject, LocalDateTime date, String text,Account sender, Vector<Account> Recievers) {
+    public Message(String subject, LocalDateTime date, String text,Account sender, Vector<String> Recievers) {
         this.subject = subject;
         this.date = date;
         this.text = text;
         this.markedForDelete = false;
         this.id = text.hashCode();
         this.sender = sender;
-        for(Account a : Recievers)
+        for(String a : Recievers)
         {
         	this.receivers.add(a);
         }
@@ -48,14 +48,14 @@ public class Message {
       * 
       * @return List of all accounts the message will go to
       */
-     public Vector<Account> getReceivers()
+     public Vector<String> getReceivers()
      {
          return this.receivers;
      }
      /**
       * @param receiver List of accounts the message will go to
       */
-    public void addReceiver(Account receiver)
+    public void addReceiver(String receiver)
     {
         this.receivers.add(receiver);
     }

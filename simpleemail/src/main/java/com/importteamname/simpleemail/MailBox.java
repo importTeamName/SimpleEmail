@@ -1,4 +1,4 @@
-package com.importteamname.simpleemail;
+//package com.importteamname.simpleemail;
 
 import java.util.ArrayList;
 /**
@@ -42,6 +42,10 @@ public class MailBox {
     public void addMessageToMailBox(Message m)
     {
     	messages.add(m);
+    }
+    
+    public ArrayList<Message> getMessages(){
+    	return messages;
     }
 
 }

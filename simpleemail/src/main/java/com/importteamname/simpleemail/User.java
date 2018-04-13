@@ -1,4 +1,4 @@
-package com.importteamname.simpleemail;
+//package com.importteamname.simpleemail;
 
 /**
  * Stores information relevant to a single account
@@ -82,6 +82,17 @@ public class User {
 	public Vector<Account> getAccounts()
 	{
 		return accounts;
+	}
+	/*
+	 * Gets a single account specifed by 'name'
+	 */
+	public Account getAccount(String name) {
+		for (Account a : accounts) {
+			if (a.getAccountname().equals(name)) {
+				return a;
+			}
+		}
+		return null;
 	}
 	/**
 	 * 	 * Searches accounts Associated to the user to find the right account

@@ -1,41 +1,23 @@
-package com.importteamname.simpleemail;
-
-import java.awt.EventQueue;
+//package com.importteamname.simpleemail;
 
 import javax.swing.JFrame;
-import javax.swing.BoxLayout;
-import java.awt.BorderLayout;
-import javax.swing.Box;
-import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JTextPane;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Panel;
 import javax.swing.UIManager;
 
 public class ReadMessage {
 
-	public JFrame frame;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-       
-    }
+	private JFrame 		frame;
+	private Message		message;
 
     /**
      * Create the application.
      */
-    public ReadMessage() {
+    public ReadMessage(Message m) {
+		message = m;
         initialize();
     }
 
@@ -65,17 +47,17 @@ public class ReadMessage {
         lblSubject.setBounds(24, 87, 61, 16);
         panel.add(lblSubject);
         
-        JLabel lblSenderAddressHere = new JLabel("sender address here");
-        lblSenderAddressHere.setBounds(89, 11, 481, 16);
-        panel.add(lblSenderAddressHere);
+        JLabel lblSenderAddress = new JLabel("sender address here");
+        lblSenderAddress.setBounds(89, 11, 481, 16);
+        panel.add(lblSenderAddress);
         
-        JLabel lblNewLabel = new JLabel("recipitant address here");
-        lblNewLabel.setBounds(89, 49, 481, 16);
-        panel.add(lblNewLabel);
+        JLabel lblFromAddress = new JLabel("recipitant address here");
+        lblFromAddress.setBounds(89, 49, 481, 16);
+        panel.add(lblFromAddress);
         
-        JLabel lblNewLabel_1 = new JLabel("subject here");
-        lblNewLabel_1.setBounds(89, 87, 481, 16);
-        panel.add(lblNewLabel_1);
+        JLabel lblSubjectText = new JLabel("subject here");
+        lblSubjectText.setBounds(89, 87, 481, 16);
+        panel.add(lblSubjectText);
         
         JTextPane textPane = new JTextPane();
         textPane.setBounds(0, 158, 600, 280);
@@ -87,21 +69,12 @@ public class ReadMessage {
         frame.getContentPane().add(panel_1);
         panel_1.setLayout(null);
         
-        JButton btnSend = new JButton("Forward");
-        btnSend.setBounds(135, 6, 117, 29);
-        panel_1.add(btnSend);
-        
-        JButton btnReply = new JButton("Reply");
-        btnReply.setBounds(6, 6, 117, 29);
-        panel_1.add(btnReply);
-        
         JButton btnDelete = new JButton("Delete");
-        btnDelete.setBounds(477, 6, 117, 29);
+        btnDelete.setBounds(450, 6, 117, 29);
         panel_1.add(btnDelete);
         
-        Panel panel_2 = new Panel();
-        panel_2.setBackground(UIManager.getColor("Button.background"));
-        panel_2.setBounds(0, 438, 600, 19);
-        frame.getContentPane().add(panel_2);
+        JLabel lblDateTime = new JLabel(message.getDate().toString());
+        lblDateTime.setBounds(10, 13, 231, 14);
+        panel_1.add(lblDateTime);
     }
 }

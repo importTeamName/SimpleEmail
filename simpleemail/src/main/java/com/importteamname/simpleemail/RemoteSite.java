@@ -1,4 +1,4 @@
-package com.importteamname.simpleemail;
+//package com.importteamname.simpleemail;
 
 import java.util.Vector;
 
@@ -26,7 +26,7 @@ public class RemoteSite {
 			System.out.println("list: " + u.getUserName() + "  test: " + userName);
 			if(u.getUserName().equals(userName))
 			{
-				System.out.println();
+				System.out.println("User exists");
 				return true;
 			}
 		}
@@ -42,6 +42,7 @@ public class RemoteSite {
 			{
 				if(u.getPassword().equals(tempPass))
 				{
+					System.out.println("Password matches");
 					return true;
 				}
 			}
@@ -84,7 +85,7 @@ public class RemoteSite {
 	 */
 	public void addMessage(Message m)
 	{
-		Vector<Account> rec = m.getReceivers();
+		Vector<String> rec = m.getReceivers();
 		// For each user there is 
 		for(User tempUser : users)
 		{
@@ -92,9 +93,10 @@ public class RemoteSite {
 			for(Account userAcc : tempUser.getAccounts())
 			{
 				//For each account the message is being sent to 
-				for(Account destAccs : rec)
+				for(String destAccs : rec)
 				{
-					if(destAccs.getAccountname().equals(userAcc.getAccountname()))
+					System.out.println(destAccs);
+					if(destAccs.equals(userAcc.getAccountname()))
 					{
 						tempUser.addMessageToUser(userAcc, m);
 					}
