@@ -2,12 +2,17 @@
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JButton;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
-import java.awt.Panel;
-import javax.swing.UIManager;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+import javax.swing.UIManager;
+/**
+ * Class for creating a read message dialog
+ * @author Alex, Daniel Weber, Clay Turner
+ *
+ */
 public class ReadMessage {
 
 	private JFrame 		frame;
@@ -15,10 +20,12 @@ public class ReadMessage {
 
     /**
      * Create the application.
+     * @param m Message to display
      */
     public ReadMessage(Message m) {
 		message = m;
         initialize();
+        frame.setVisible(true);
     }
 
     /**
@@ -26,8 +33,8 @@ public class ReadMessage {
      */
     private void initialize() {
         frame = new JFrame();
+        frame.setTitle("Read Message");
         frame.setBounds(100, 100, 600, 479);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         
         JPanel panel = new JPanel();
@@ -47,19 +54,21 @@ public class ReadMessage {
         lblSubject.setBounds(24, 87, 61, 16);
         panel.add(lblSubject);
         
-        JLabel lblSenderAddress = new JLabel("sender address here");
+        // Fill in all fields with info
+        JLabel lblSenderAddress = new JLabel(message.getSender().getAccountname());
         lblSenderAddress.setBounds(89, 11, 481, 16);
         panel.add(lblSenderAddress);
         
-        JLabel lblFromAddress = new JLabel("recipitant address here");
+        JLabel lblFromAddress = new JLabel(message.getReceiversString());
         lblFromAddress.setBounds(89, 49, 481, 16);
         panel.add(lblFromAddress);
         
-        JLabel lblSubjectText = new JLabel("subject here");
+        JLabel lblSubjectText = new JLabel(message.getSubject());
         lblSubjectText.setBounds(89, 87, 481, 16);
         panel.add(lblSubjectText);
         
         JTextPane textPane = new JTextPane();
+        textPane.setText(message.getText());
         textPane.setBounds(0, 158, 600, 280);
         frame.getContentPane().add(textPane);
         
@@ -69,11 +78,10 @@ public class ReadMessage {
         frame.getContentPane().add(panel_1);
         panel_1.setLayout(null);
         
-        JButton btnDelete = new JButton("Delete");
-        btnDelete.setBounds(450, 6, 117, 29);
-        panel_1.add(btnDelete);
-        
-        JLabel lblDateTime = new JLabel(message.getDate().toString());
+        LocalDateTime time = message.getDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d YYYY hh:MM:SS a");
+        String timestr = time.format(formatter);
+        JLabel lblDateTime = new JLabel(timestr);
         lblDateTime.setBounds(10, 13, 231, 14);
         panel_1.add(lblDateTime);
     }

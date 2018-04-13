@@ -4,26 +4,23 @@ import java.util.Vector;
 /**
  * Stores information relevant to a single account
  * @author Benjamin Lanier
- *TODO: Implement a sendMessageFunction, needs to be able to raise some kind of signal
  */
 
 public class Account {
 	private Vector<MailBox> mailBoxList = new Vector<MailBox>();
 	
 	private String accountname;
-	private String password;
 
 	/**
-	 *   Constructor for the account class
-	 *	 -creates an account with an accountname and password
-	 * 	-creates three mailboxes to start with
+	 * Constructor for the account class
+	 * -creates an account with an accountname and password
+	 * -creates three mailboxes to start with
 	 * @param user account name
 	 * @param pass account password
 	 */
-	public Account(String user, String pass)
+	public Account(String user)
 	{
 		accountname = user;
-		password = pass;
 		mailBoxList.add(new MailBox("Sent"));
 		mailBoxList.add(new MailBox("Inbox"));
 		mailBoxList.add(new MailBox("Trash"));
@@ -62,14 +59,8 @@ public class Account {
 	}
 	
 	/**
-	 * 
-	 * @param newpass new password
-	 */
-	public void changePassword(String newpass)
-	{
-		password = newpass;
-	}
-	/*Getter function for accountname
+	 * Getter function for accountname
+	 * @return the string account name
 	 * 
 	 */
 	public String getAccountname()
@@ -95,7 +86,7 @@ public class Account {
 	}
 	
 	/**
-	 * 
+	 * Gets the Inbox for this account
 	 * @return instance of the Inbox of this account
 	 */
 	public MailBox getInbox()
@@ -109,6 +100,10 @@ public class Account {
 		}
 		return null;
 	}
+	/**
+	 * Gets the Trash for this account
+	 * @return instance of the trash of this account
+	 */
 	public MailBox getTrash()
 	{
 		for(MailBox m : mailBoxList)
@@ -120,6 +115,10 @@ public class Account {
 		}
 		return null;
 	}
+	/**
+	 * Gets the Sent for this account
+	 * @return instance of the sent of this account
+	 */
 	public MailBox getSent()
 	{
 		for(MailBox m : mailBoxList)

@@ -4,36 +4,42 @@ import java.util.Vector;
 
 /**
  * Class for the Remote Site for the SimpleEmail system
- * @author Benjamin Lanier
+ * @author Benjamin Lanier, Daniel Weber, Alex Porter, Clay Turner
  */
 public class RemoteSite {
 
 	public Vector<User> users;
 	
+	/**
+	 * Constructor
+	 */
 	public RemoteSite()
 	{
 		users = new Vector<User>();
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Checks whether or a user exists
+	 * @param userName Name of the user to check for
+	 * @return true if the user exists
 	 */
 	public boolean userExists(String userName)
 	{
 		for( User u : users)
 		{
-			System.out.println("list: " + u.getUserName() + "  test: " + userName);
 			if(u.getUserName().equals(userName))
 			{
-				System.out.println("User exists");
 				return true;
 			}
 		}
-		System.out.println();
 		return false;
 	}
-	
+	/**
+	 * Check whether or not password is correct for the given user
+	 * @param tempUser User to check password for
+	 * @param tempPass Password to check for correctness
+	 * @return true is the password is correct
+	 */
 	public boolean validatePassword(String tempUser, String tempPass)
 	{
 		for( User u : users)
@@ -42,7 +48,6 @@ public class RemoteSite {
 			{
 				if(u.getPassword().equals(tempPass))
 				{
-					System.out.println("Password matches");
 					return true;
 				}
 			}
@@ -61,8 +66,7 @@ public class RemoteSite {
 	}
 	
 	/**
-	 * When a user is deleted it must be deleted here
-	 * -the 'Master' instance of a user is held here
+	 * Deletes a user from the list of users
 	 * @param userToRemove The username to be deleted
 	 */
 	public void removeUser(String userToRemove)
@@ -81,7 +85,9 @@ public class RemoteSite {
 		users.remove(indexOfRemove);
 	}
 		
-	/*This function will act as a 'listener' to receive messages and send them to the correct accounts
+	/**
+	 * This function will act as a 'listener' to receive messages and send them to the correct accounts
+	 * @param m Message to add to the correct account
 	 */
 	public void addMessage(Message m)
 	{
@@ -95,7 +101,6 @@ public class RemoteSite {
 				//For each account the message is being sent to 
 				for(String destAccs : rec)
 				{
-					System.out.println(destAccs);
 					if(destAccs.equals(userAcc.getAccountname()))
 					{
 						tempUser.addMessageToUser(userAcc, m);
@@ -106,34 +111,36 @@ public class RemoteSite {
 		}
 	}
 	/**
-	 * When a user logs on they must fetch all data that arrived when they were logged off
-	 * When they are logged on, the localsite will update as new info comes in
-	 * This remoteSite will also update regardless to if the user is logged in or not
-	 *
-	* Returns users mailbox of messages recieved while they were logged off
-	 * - called by local site on its creation
-	 * @param tempUser user that is fetching its inboxes
-	 * @return a Vector list of inboxes for all accounts
+	 * Gets all the users being stored
+	 * @return a Vector of the Users 
+	 */
+	public Vector<User> getUsers()
+	{
+		return users;
+	}
+	/**
+	 * Gets all the accounts for a given User
+	 * @param tempUser user that is fetching its accounts
+	 * @return a Vector of the accounts 
 	 */
 	public Vector<Account> getUsersAccounts(User tempUser)
 	{
-		//Vector<MailBox> usersMailboxes = new Vector<MailBox>();
 		Vector<Account> tempAccounts = new Vector<Account>();
 		for(User u : users)
 		{
 			if(u.getUserName().equals(tempUser.getUserName()))
 			{
 				tempAccounts = u.getAccounts();
-				//for(Account accountsInUser : u.getAccounts())
-				//{
-					//usersMailboxes.add(accountsInUser.getInbox());
-				//}
 			}
 		}
-		//The return vector will be a list of all inboxes for each account of the input user
 		return tempAccounts;
 	}
 	
+	/**
+	 * Gets a user that is specfied by name
+	 * @param userName String name of the specified user
+	 * @return User object for the given name
+	 */
 	public User getUser(String userName)
 	{
 		for(User u: users)
@@ -143,5 +150,20 @@ public class RemoteSite {
 			}
 		}
 		return (User)null;
+	}
+	
+	/**
+	 * Checks if a account name is unique
+	 * @return returns false if name already exists
+	 */
+	public boolean UniqueCheck(String nameToCheck) {
+		for(User u: users) {
+			for(Account a : u.getAccounts()) {
+				if (a.getAccountname().equals(nameToCheck)) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

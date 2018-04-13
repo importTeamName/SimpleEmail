@@ -1,6 +1,7 @@
 /**
  * Class for the pop up window to read a message
- * @author Daniel Weber
+ * Created using WindowBuilder extension
+ * @author Daniel Weber, Alex Porter, Clay Turner
  */
 
 //package com.importteamname.simpleemail;
@@ -18,7 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.Panel;
 import javax.swing.UIManager;
 
 public class ComposeMessage {
@@ -30,9 +30,11 @@ public class ComposeMessage {
     private Account 	CurrentAccount;
     private RemoteSite 	CopyOfMasterSite;
     
-    /**
-     * Create the application.
-     */
+   /**
+    * Constructor to create a compose message dialog
+    * @param a Account sending the message
+    * @param CopyOfMasterSite	remote site used to send the message
+    */
     public ComposeMessage(Account a, RemoteSite CopyOfMasterSite) {
     	CurrentAccount = a;
     	this.CopyOfMasterSite = CopyOfMasterSite;
@@ -45,6 +47,7 @@ public class ComposeMessage {
      */
     private void initialize() {
         frame = new JFrame();
+        frame.setTitle("Compose Message");
         frame.setBounds(100, 100, 600, 479);
         frame.getContentPane().setLayout(null);
         
@@ -98,33 +101,26 @@ public class ComposeMessage {
         			JOptionPane.showMessageDialog(frame, "Please enter who the email is addressed to");
         		}
         		else {
-
-                    // UNTESTED
-
-        			//Create Message and send back to EmailGUI to be sent out
+        			//Create new Message
         			String[] rec = to.getText().split(",");
         			Vector<String> receivers = new Vector<String>(Arrays.asList(rec));
         			Message m = new Message(subject.getText(), LocalDateTime.now(), 
-                                            textPane.getText(), CurrentAccount, receivers);
-                                            
+							                textPane.getText(), CurrentAccount, receivers);
+        			
         			//Add new message to sent mailbox
-                    CurrentAccount.getSent().addMessageToMailBox(m);
-                    
-                    //Add new message to other's mailbox
+        			CurrentAccount.getSent().addMessageToMailBox(m);
+        			
+        			//Add new message to other's mailbox
                     for (String _rec : receivers) {
-                        String _username = _rec.split("@")[0];
-                        System.out.printf("Username of recipitant: %s\n", _username);
-                        User _user = CopyOfMasterSite.getUser(_username);
-                        for (Account _acc: _user.getAccounts()) {
-                            if (_acc.getAccountname().equals(_rec)) {
-                                Mailbox inbox = _acc.getInbox();
-                                //System.out.printf("Mailbox %s\n", inbox.getName());
-                                inbox.addMessageToMailbox(m);
-                            }
-                        }
+                    	for(User u : CopyOfMasterSite.getUsers()) {
+                    		for (Account _acc: u.getAccounts()) {
+                    			if (_acc.getAccountname().equals(_rec)) {
+                    				MailBox inbox = _acc.getInbox();
+                    				inbox.addMessageToMailBox(m);
+                    			}
+                    		}
+                    	}
                     }
-
-        			CopyOfMasterSite.addMessage(m);
         			frame.dispose();
         		}
         	}
@@ -135,10 +131,13 @@ public class ComposeMessage {
         JLabel lblToInstructions = new JLabel("To send to 1+ people, comma separate addresses, no spaces");
         lblToInstructions.setBounds(133, 13, 421, 14);
         panel_1.add(lblToInstructions);
-        
-        Panel panel_2 = new Panel();
-        panel_2.setBackground(UIManager.getColor("Button.background"));
-        panel_2.setBounds(0, 438, 600, 19);
-        frame.getContentPane().add(panel_2);
+    }
+    
+    /**
+     * Sets the message to be a reply
+     * @param receiver
+     */
+    public void ReplyMessage(String receiver) {
+    	to.setText(receiver);
     }
 }

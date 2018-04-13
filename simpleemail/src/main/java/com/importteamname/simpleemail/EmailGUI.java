@@ -1,12 +1,11 @@
 /**
  * Class for the main GUI for the SimpleEmail system
  * Created using the WindowBuilder extension
- * @author Alex Porter
+ * @author Alex Porter, Clay Turner
  */
 
 //package com.importteamname.simpleemail;
 
-//Things imported by WindowBuilder
 import javax.swing.JFrame;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,15 +19,19 @@ import javax.swing.border.Border;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import java.awt.event.ActionEvent;
 
 import java.awt.CardLayout;
+import java.awt.Checkbox;
+import java.awt.CheckboxGroup;
+
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
-import javax.swing.JList;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
+import javax.swing.JList;
 import java.util.ArrayList;
 
 public class EmailGUI {
@@ -44,6 +47,7 @@ public class EmailGUI {
 	private JButton 		btnTrash;
 	private Border			defaultBorder;
 	private JList<String> 	list;
+	
 	private RemoteSite		CopyOfMasterSite;
 	private User			CurrentUser;
 	private Account			CurrentAccount;
@@ -51,9 +55,9 @@ public class EmailGUI {
 
 	/**
 	 * Create the application.
+	 * @param remSite Copy of remote site to access data from 
 	 */
 	public EmailGUI(RemoteSite remSite) {
-		System.out.println("Creating an EmailGUI");
 		CopyOfMasterSite = remSite;
 		initialize();
 		frame.setVisible(true);
@@ -64,10 +68,15 @@ public class EmailGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("Simple Email by ImportTeamName");
 		frame.setBounds(100, 100, 700, 380);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
+		
+		/* 
+		 * ---Stuff on the Login Screen--- 
+		 */
 		JPanel LoginScreen = new JPanel();
 		frame.getContentPane().add(LoginScreen, "name_443823858163679");
 		LoginScreen.setLayout(null);
@@ -85,11 +94,13 @@ public class EmailGUI {
 		PasswordText.setColumns(10);
 		
 		JLabel lblUsername = new JLabel("Username:");
-		lblUsername.setBounds(221, 105, 62, 14);
+		lblUsername.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblUsername.setBounds(130, 105, 153, 14);
 		LoginScreen.add(lblUsername);
 		
 		JLabel lblpassword = new JLabel("Password:");
-		lblpassword.setBounds(221, 136, 62, 14);
+		lblpassword.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblpassword.setBounds(141, 136, 142, 14);
 		LoginScreen.add(lblpassword);
 		
 		JButton btnLogin = new JButton("Login");
@@ -97,10 +108,10 @@ public class EmailGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//check for valid login
-				if(CopyOfMasterSite.userExists(UserText.getText()))
-				{
+				if(CopyOfMasterSite.userExists(UserText.getText())) {
 					if(CopyOfMasterSite.validatePassword(UserText.getText(), PasswordText.getText()))
 					{
+						//Login to the user
 						CurrentUser = CopyOfMasterSite.getUser(UserText.getText());
 						StartMailbox();
 					}
@@ -108,8 +119,7 @@ public class EmailGUI {
 						JOptionPane.showMessageDialog(frame,"Incorrect Username or Password");
 					}
 				}
-				else
-				{
+				else {
 					JOptionPane.showMessageDialog(frame,"User does not exist");
 				}
 				
@@ -142,8 +152,12 @@ public class EmailGUI {
 		btndeleteuser.setBounds(109, 11, 101, 23);
 		LoginScreen.add(btndeleteuser);
 		
+		/* 
+		 * ---Stuff on the MailBox Screen--- 
+		 */
 		JPanel MailboxScreen = new JPanel();
 		frame.getContentPane().add(MailboxScreen, "name_443823897215886");
+		MailboxScreen.setLayout(null);
 		
 		JButton btnaddaccount = new JButton("Add Account");
 		btnaddaccount.addActionListener(new ActionListener() {
@@ -152,6 +166,7 @@ public class EmailGUI {
 			}
 		});
 		btnaddaccount.setBounds(20, 20, 107, 23);
+		MailboxScreen.add(btnaddaccount);
 		
 		JButton btndeleteaccount = new JButton("Delete Account");
 		btndeleteaccount.addActionListener(new ActionListener() {
@@ -160,6 +175,7 @@ public class EmailGUI {
 			}
 		});
 		btndeleteaccount.setBounds(160, 20, 120, 23);
+		MailboxScreen.add(btndeleteaccount);
 		
 		JButton btnlogout = new JButton("Log Out");
 		btnlogout.addActionListener(new ActionListener() {
@@ -170,17 +186,15 @@ public class EmailGUI {
 		btnlogout.setBounds(305, 20, 89, 23);
 		MailboxScreen.add(btnlogout);
 		
-		lblwelcome = new JLabel("Welcome, User");
+		lblwelcome = new JLabel();
 		lblwelcome.setBounds(454, 24, 178, 14);
-		MailboxScreen.setLayout(null);
-		MailboxScreen.add(btnaddaccount);
-		MailboxScreen.add(btndeleteaccount);
 		MailboxScreen.add(lblwelcome);
 		
 		btnInbox = new JButton("Inbox");
 		btnInbox.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Check that there is an account selected
 				if(CurrentUser.getAccounts().isEmpty()) {
 					JOptionPane.showMessageDialog(frame,"Must have an account to view emails");
 				}
@@ -199,6 +213,7 @@ public class EmailGUI {
 		btnSent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Check that there is an account selected
 				if(CurrentUser.getAccounts().isEmpty()) {
 					JOptionPane.showMessageDialog(frame,"Must have an account to view emails");
 				}
@@ -217,6 +232,7 @@ public class EmailGUI {
 		btnTrash.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Check that there is an account selected
 				if(CurrentUser.getAccounts().isEmpty()) {
 					JOptionPane.showMessageDialog(frame,"Must have an account to view emails");
 				}
@@ -233,12 +249,13 @@ public class EmailGUI {
 		
 		lblActiveAccount = new JLabel("...");
 		lblActiveAccount.setHorizontalAlignment(SwingConstants.CENTER);
-		lblActiveAccount.setBounds(31, 96, 86, 14);
+		lblActiveAccount.setBounds(10, 96, 140, 14);
 		MailboxScreen.add(lblActiveAccount);
 		
 		JButton btnCompose = new JButton("Compose New Email");
 		btnCompose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// Check that there is an account selected
 				if(CurrentUser.getAccounts().isEmpty()) {
 					JOptionPane.showMessageDialog(frame,"Must have an account to send emails");
 				}
@@ -246,16 +263,45 @@ public class EmailGUI {
 					JOptionPane.showMessageDialog(frame,"Must have an account selected to send emails");
 				}
 				else {
-					ComposeMessage newMessage = new ComposeMessage(CurrentAccount, CopyOfMasterSite); 
+					// Create a new compose message dialog
+					new ComposeMessage(CurrentAccount, CopyOfMasterSite);
 				}
 			}
 		});
 		btnCompose.setBounds(160, 46, 188, 23);
 		MailboxScreen.add(btnCompose);
+
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int[] index = list.getSelectedIndices();
+				if (index.length > 0) {
+					DeleteMessages(index);
+				}
+			}
+			
+		});
+		btnDelete.setBounds(454, 46, 89, 23);
+		MailboxScreen.add(btnDelete);
 		
-		
-		
-		
+		JButton btnReply = new JButton("Reply");
+		btnReply.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Can't reply to things in the Trash mailbox
+				if (!CurrentMailBox.getName().equals("Trash")) {
+					int[] index = list.getSelectedIndices();
+					if (index.length > 0) {
+						ReplyMessages(index);
+					}
+				}
+			}
+			
+		});
+		btnReply.setBounds(355, 46, 89, 23);
+		MailboxScreen.add(btnReply);
+				
 		accountMenu = new JPopupMenu();
 		JButton btnChooseAccount = new JButton("Accounts Menu");
 		btnChooseAccount.addMouseListener(new MouseAdapter() {
@@ -274,12 +320,33 @@ public class EmailGUI {
 		list = new JList<>();
 		String[] listarr = {"..."};
 		list.setListData(listarr);
+		list.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent e) {}
+			@Override
+			public void keyReleased(KeyEvent e) {}
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// Read messages when enter key is pressed
+				if(e.getKeyChar() == '\n' || e.getKeyChar() == 'r') {
+					int[] index = list.getSelectedIndices();
+					if (index.length >0) {
+						ArrayList<Message> messages = CurrentMailBox.getMessages();
+						for(int i = 0; i < index.length; i++) {
+							new ReadMessage(messages.get(i));
+						}
+					}
+				}
+			}
+			
+		});
 		list.setBounds(160, 80, 472, 251);
-		MailboxScreen.add(list);		
+		MailboxScreen.add(list);
 		
-		JButton btnDelete = new JButton("Delete");
-		btnDelete.setBounds(358, 46, 89, 23);
-		MailboxScreen.add(btnDelete);
+		JLabel lblOpenInstruc = new JLabel("<html>To open an email, select with mouse and press enter</html>");
+		lblOpenInstruc.setHorizontalAlignment(SwingConstants.CENTER);
+		lblOpenInstruc.setBounds(31, 223, 89, 108);
+		MailboxScreen.add(lblOpenInstruc);
 	}
 	
 	/**
@@ -298,7 +365,6 @@ public class EmailGUI {
 			JMenuItem item = new JMenuItem(a.getAccountname());
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("Account " + item.getText() + " selected");
 					lblActiveAccount.setText(item.getText());
 					CurrentAccount = CurrentUser.getAccount(item.getText());
 					String[] listarr = {"..."};
@@ -334,6 +400,36 @@ public class EmailGUI {
 	}
 
 	/**
+	 * Deletes the selected messages
+	 */
+	public void DeleteMessages(int[] emails) {
+		ArrayList<Message> messages = CurrentMailBox.getMessages();
+		for(int i = emails.length-1; i >= 0; i--) {
+			// Move deleted email to trash if not in trash mailbox
+			if (!CurrentMailBox.getName().equals("Trash")) {
+				CurrentAccount.getTrash().addMessageToMailBox(messages.get(emails[i]));
+			}
+			messages.remove(emails[i]);
+		}
+		// Refresh current mailbox
+		if (CurrentMailBox.getName().equals("Inbox")) { SetEmailView(1); }
+		else if (CurrentMailBox.getName().equals("Sent")) { SetEmailView(2); }
+		else if (CurrentMailBox.getName().equals("Trash")) { SetEmailView(3); }
+	}
+	
+	/**
+	 * Replies to the selected messages
+	 */
+	public void ReplyMessages(int[] emails) {
+		ArrayList<Message> messages = CurrentMailBox.getMessages();
+		ComposeMessage m;
+		for(int i = 0; i < emails.length; i++) {
+			m = new ComposeMessage(CurrentAccount, CopyOfMasterSite);
+			m.ReplyMessage(messages.get(emails[i]).getReceiversString());
+		}
+	}
+	
+	/**
 	 * Sets the List view to the correct mailbox when selected
 	 * @param choice : 1 for Inbox, 2 for sent, 3 for trash
 	 */
@@ -341,6 +437,7 @@ public class EmailGUI {
 		btnInbox.setBorder(defaultBorder);
 		btnSent.setBorder(defaultBorder);
 		btnTrash.setBorder(defaultBorder);
+		// Set border to show selected mailbox
 		if (choice == 1) {
 			CurrentMailBox = CurrentAccount.getInbox();
 			btnInbox.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -356,7 +453,7 @@ public class EmailGUI {
 		else {
 			CurrentMailBox = null;
 		}
-			
+		// Populate email list view
 		ArrayList<Message> messages = CurrentMailBox.getMessages();
 		String[] listarr;
 		if (messages.size() == 0) {
@@ -376,14 +473,17 @@ public class EmailGUI {
 	 * Creates a Dialog for creating/deleteing accounts and users
 	 * @param choice : 1 for add user, 2 for delete user, 3 for add account, 4 for delete account 
 	 */
-	void ManageDialog(int choice) {
+	public void ManageDialog(int choice) {
 		JFrame dialog = new JFrame();
 		dialog.getContentPane().setLayout(new GridLayout(4,2));
 		
 		JTextField name = new JTextField();
 		JTextField login1 = new JTextField();
 		JTextField login2 = new JTextField();
+		CheckboxGroup site = new CheckboxGroup();;
 		String btnText;
+		
+		//Set the go button text to Create or delete
 		if (choice == 1 || choice == 3) {btnText = "Create";}
 		else {btnText = "Delete";}
 		JButton gobutton = new JButton(btnText);
@@ -414,6 +514,7 @@ public class EmailGUI {
 					}
 					else {JOptionPane.showMessageDialog(dialog,"Passwords must match");}
 				}
+				
 				// Choice 2 = delete user
 				else if (choice == 2) {
 					if(CopyOfMasterSite.userExists(name.getText()))
@@ -434,22 +535,37 @@ public class EmailGUI {
 					}
 					
 				}
+				
 				// Choice 3 = add account
 				else if (choice == 3) {
 					//Call to create account on the user that is associated with the open window
-					CopyOfMasterSite.getUser(CurrentUser.getUserName()).addAccount(name.getText(), "uah.edu", login1.getText());
-					//add new account to accounts menu
-					JMenuItem item = new JMenuItem(name.getText()+ "@uah.edu");
-					item.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							System.out.println("Account " + item.getText() + " selected");
-							lblActiveAccount.setText(item.getText());
-							CurrentAccount = CurrentUser.getAccount(item.getText());
-						}
-					});
-					accountMenu.add(item);
-					dialog.dispose();
+					String sitestr;
+					if (site.getSelectedCheckbox().getLabel().equals("Local Site")) {
+						sitestr = "@local";
+					}
+					else {
+						sitestr = "@remote";
+					}
+					
+					if (CopyOfMasterSite.UniqueCheck(name.getText() + sitestr)) {
+						CopyOfMasterSite.getUser(CurrentUser.getUserName()).addAccount(name.getText(), sitestr);
+						
+						//add new account to accounts menu
+						JMenuItem item = new JMenuItem(name.getText()+ sitestr);
+						item.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								lblActiveAccount.setText(item.getText());
+								CurrentAccount = CurrentUser.getAccount(item.getText());
+							}
+						});
+						accountMenu.add(item);
+						dialog.dispose();
+					}
+					else {
+						JOptionPane.showMessageDialog(dialog,"Account name is not unique");
+					}
 				}
+				
 				// Choice 4 = delete account
 				else if (choice == 4) {
 					int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you wish to delete this account?", "Confirm Choice", 2);
@@ -460,7 +576,6 @@ public class EmailGUI {
 						for (int i = 0 ; i <  accountMenu.getComponentCount(); i++) {
 						      JMenuItem item = (JMenuItem)accountMenu.getComponent(i);
 						      if (item.getText().equals(name.getText())) {
-						    	  System.out.println(item.getText());
 						          accountMenu.remove(i);
 						      }
 						}
@@ -470,6 +585,9 @@ public class EmailGUI {
 							lblActiveAccount.setText("...");
 							String[] listarr = {"..."};
 							list.setListData(listarr);
+							btnInbox.setBorder(defaultBorder);
+							btnSent.setBorder(defaultBorder);
+							btnTrash.setBorder(defaultBorder);
 						}
 						
 						dialog.dispose();
@@ -478,6 +596,7 @@ public class EmailGUI {
 			}
 		});
 		
+		// Add correct components to the dialog
 		dialog.getContentPane().add(new JLabel("Username: "));
 		dialog.getContentPane().add(name);
 		if (choice == 1 || choice == 2) {
@@ -487,6 +606,10 @@ public class EmailGUI {
 		if (choice == 1) {
 			dialog.getContentPane().add(new JLabel("Repeat Password: "));
 			dialog.getContentPane().add(login2);
+		}
+		if (choice == 3) {
+			 dialog.add(new Checkbox("Local Site", site, true));
+			 dialog.add(new Checkbox("Remote Site", site, false));
 		}
 		dialog.getContentPane().add(gobutton);
 		

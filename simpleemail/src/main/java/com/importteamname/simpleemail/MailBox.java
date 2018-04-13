@@ -3,7 +3,7 @@
 import java.util.ArrayList;
 /**
  * Stores messages and fetches data from the remote site
- * @author Daniel Weber
+ * @author Daniel Weber, Ben Lanier
  *
  */
 public class MailBox {
@@ -36,14 +36,28 @@ public class MailBox {
         this.name = name;
     }
 
-    /*For adding messages to mailbox
-     * 
+    /**
+     * For adding messages to mailbox
+     * @param m The message to add
      */
     public void addMessageToMailBox(Message m)
     {
     	messages.add(m);
     }
     
+    /**
+     * Deletes the message from the mailbox
+     * @ param m the message to delete
+     */
+    public void deleteMessageFromMailBox(Message m)
+    {
+    	messages.remove(m);
+    }
+    
+    /**
+     * Return the ArrayList of messages in this mailbox
+     * @return the arraylist of messages
+     */
     public ArrayList<Message> getMessages(){
     	return messages;
     }

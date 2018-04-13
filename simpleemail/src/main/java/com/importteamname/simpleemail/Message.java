@@ -4,26 +4,27 @@ import java.time.LocalDateTime;
 import java.util.Vector;
 /**
  * Holds a email message and related information
- * @author Daniel Weber
+ * @author Daniel Weber, Ben Lanier, Clay Turner
  */
 public class Message {
-	// public Address sender;    // Address not implemented yet
-    // public Address receiver;  // Address not implemented yet
     public String subject;
     public LocalDateTime date;
     public String text;
-    public boolean markedForDelete; // used for deleting permanately from trash
-    public int id;
     public Account sender;
     public Vector<String> receivers = new Vector<String>();
 
-    // constructor
+    /**
+     * Contructor for creating a new message
+     * @param subject String subject of message
+     * @param date LocalDateTime timestamp of message
+     * @param text String body of message
+     * @param sender Account sender of message
+     * @param Recievers String Vector of receivers
+     */
     public Message(String subject, LocalDateTime date, String text,Account sender, Vector<String> Recievers) {
         this.subject = subject;
         this.date = date;
         this.text = text;
-        this.markedForDelete = false;
-        this.id = text.hashCode();
         this.sender = sender;
         for(String a : Recievers)
         {
@@ -31,84 +32,59 @@ public class Message {
         }
     }
 
-    // Not implemented yet
-
+    /**
+     * Get the sender Account for this message
+     * @return Account that sent the message
+     */
      public Account getSender()
      {
          return this.sender;
      }
      /**
-      * @param sender Account to send to 
-      */
-     public void setSender(Account sender)
-     {
-         this.sender = sender;
-     }
-     /**
-      * 
-      * @return List of all accounts the message will go to
+      * Get the list of recievers
+      * @return string vector of all receivers
       */
      public Vector<String> getReceivers()
      {
          return this.receivers;
      }
-     /**
-      * @param receiver List of accounts the message will go to
-      */
-    public void addReceiver(String receiver)
-    {
-        this.receivers.add(receiver);
+     
+    
+    /**
+     * Get the list of receivers of the message
+     * @return comma separated string of receivers
+     */
+    public String getReceiversString() {
+    	String str = receivers.get(0);
+    	for (int i = 1; i < receivers.size(); i++) {
+    		str = str + "," + receivers.get(i);
+    	}
+    	return str;
     }
 
     /**
-     * 
-     * @return subject of the message
+     * Get the subject of the message as a string
+     * @return String subject of the message
      */
     public String getSubject()
     {
         return this.subject;
     }
     /**
-     * 
-     * @param subject subject of the message
+     * Get the time stamp of the message
+     * @return LocalDateTime timestamp
      */
-    public void setSubject(String subject)
-    {
-        this.subject = subject;
-    }
-
     public LocalDateTime getDate()
     {
         return this.date;
     }
 
-    public void setDate(LocalDateTime date)
-    {
-        this.date = date;
-    }
-
+    /**
+     * Get the message text
+     * @return String text of message
+     */
     public String getText()
     {
         return text;
-    }
-
-    public void setText(String text)
-    {
-        this.text = text;
-    }
-
-    public boolean getMarkedForDelete()
-    {
-        return markedForDelete;
-    }
-
-    public void setMarkedForDelete(boolean markedForDelete)
-    {
-        this.markedForDelete = markedForDelete;
-    }
-
-    public int getId()
-    {
-        return id;
     }
 }
