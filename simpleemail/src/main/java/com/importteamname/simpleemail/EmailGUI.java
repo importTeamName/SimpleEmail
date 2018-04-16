@@ -47,6 +47,7 @@ public class EmailGUI {
 	private JButton 		btnTrash;
 	private Border			defaultBorder;
 	private JList<String> 	list;
+	private boolean			noEmails;
 	
 	private RemoteSite		CopyOfMasterSite;
 	private User			CurrentUser;
@@ -276,7 +277,7 @@ public class EmailGUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				int[] index = list.getSelectedIndices();
-				if (index.length > 0) {
+				if (!noEmails && index.length > 0) {
 					DeleteMessages(index);
 				}
 			}
@@ -290,11 +291,9 @@ public class EmailGUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Can't reply to things in the Trash mailbox
-				if (!CurrentMailBox.getName().equals("Trash")) {
-					int[] index = list.getSelectedIndices();
-					if (index.length > 0) {
-						ReplyMessages(index);
-					}
+				int[] index = list.getSelectedIndices();
+				if (!noEmails && !CurrentMailBox.getName().equals("Trash") && index.length > 0) {
+					ReplyMessages(index);
 				}
 			}
 			
@@ -319,6 +318,7 @@ public class EmailGUI {
 		
 		list = new JList<>();
 		String[] listarr = {"..."};
+		noEmails = true;
 		list.setListData(listarr);
 		list.addKeyListener(new KeyListener() {
 			@Override
@@ -330,7 +330,7 @@ public class EmailGUI {
 				// Read messages when enter key is pressed
 				if(e.getKeyChar() == '\n' || e.getKeyChar() == 'r') {
 					int[] index = list.getSelectedIndices();
-					if (index.length >0) {
+					if (!noEmails && index.length > 0) {
 						ArrayList<Message> messages = CurrentMailBox.getMessages();
 						for(int i = 0; i < index.length; i++) {
 							new ReadMessage(messages.get(i));
@@ -459,12 +459,14 @@ public class EmailGUI {
 		if (messages.size() == 0) {
 			listarr = new String[1]; 
 			listarr[0] = "No Emails";
+			noEmails = true;
 		}
 		else {
 			listarr = new String[messages.size()];
 			for (int i = 0; i < messages.size(); i++) {
 				listarr[i] = messages.get(i).getSender().getAccountname() + ": " + messages.get(i).getSubject();
 			}
+			noEmails = false;
 		}
 		list.setListData(listarr);
 	}

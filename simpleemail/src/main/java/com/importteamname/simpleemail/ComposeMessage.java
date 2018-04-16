@@ -69,7 +69,7 @@ public class ComposeMessage {
         panel.add(lblSubject);
         
         from = new JTextField(CurrentAccount.getAccountname()); 
-        from.setEnabled(false);
+        from.setEditable(false);
         from.setBounds(89, 6, 484, 26);
         panel.add(from);
         from.setColumns(10);

@@ -2,6 +2,7 @@
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import java.time.LocalDateTime;
@@ -55,20 +56,24 @@ public class ReadMessage {
         panel.add(lblSubject);
         
         // Fill in all fields with info
-        JLabel lblSenderAddress = new JLabel(message.getSender().getAccountname());
-        lblSenderAddress.setBounds(89, 11, 481, 16);
-        panel.add(lblSenderAddress);
+        JTextField senderAddress = new JTextField(message.getSender().getAccountname());
+        senderAddress.setEditable(false);
+        senderAddress.setBounds(89, 6, 484, 26);
+        panel.add(senderAddress);
         
-        JLabel lblFromAddress = new JLabel(message.getReceiversString());
-        lblFromAddress.setBounds(89, 49, 481, 16);
-        panel.add(lblFromAddress);
+        JTextField fromAddress = new JTextField(message.getReceiversString());
+        fromAddress.setEditable(false);
+        fromAddress.setBounds(89, 44, 484, 26);
+        panel.add(fromAddress);
         
-        JLabel lblSubjectText = new JLabel(message.getSubject());
-        lblSubjectText.setBounds(89, 87, 481, 16);
-        panel.add(lblSubjectText);
+        JTextField subjectText = new JTextField(message.getSubject());
+        subjectText.setEditable(false);
+        subjectText.setBounds(89, 82, 484, 26);
+        panel.add(subjectText);
         
         JTextPane textPane = new JTextPane();
         textPane.setText(message.getText());
+        textPane.setEditable(false);
         textPane.setBounds(0, 158, 600, 280);
         frame.getContentPane().add(textPane);
         
