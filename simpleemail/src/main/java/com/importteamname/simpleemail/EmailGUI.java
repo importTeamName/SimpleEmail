@@ -4,7 +4,7 @@
  * @author Alex Porter, Clay Turner
  */
 
-//package com.importteamname.simpleemail;
+package com.importteamname.simpleemail;
 
 import javax.swing.JFrame;
 import javax.swing.BorderFactory;
@@ -52,8 +52,8 @@ public class EmailGUI {
 	private RemoteSite		CopyOfMasterSite;
 	private User			CurrentUser;
 	private Account			CurrentAccount;
-	private MailBox			CurrentMailBox;
-
+    private MailBox			CurrentMailBox;
+    
 	/**
 	 * Create the application.
 	 * @param remSite Copy of remote site to access data from 
@@ -302,7 +302,7 @@ public class EmailGUI {
 		MailboxScreen.add(btnReply);
 				
 		accountMenu = new JPopupMenu();
-		JButton btnChooseAccount = new JButton("Accounts Menu");
+		final JButton btnChooseAccount = new JButton("Accounts Menu");
 		btnChooseAccount.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -362,7 +362,7 @@ public class EmailGUI {
 		
 		//populate accounts menu
 		for (Account a : CurrentUser.getAccounts()) {
-			JMenuItem item = new JMenuItem(a.getAccountname());
+			final JMenuItem item = new JMenuItem(a.getAccountname());
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					lblActiveAccount.setText(item.getText());
@@ -433,7 +433,7 @@ public class EmailGUI {
 	 * Sets the List view to the correct mailbox when selected
 	 * @param choice : 1 for Inbox, 2 for sent, 3 for trash
 	 */
-	public void SetEmailView(int choice) {
+	public void SetEmailView(final int choice) {
 		btnInbox.setBorder(defaultBorder);
 		btnSent.setBorder(defaultBorder);
 		btnTrash.setBorder(defaultBorder);
@@ -475,14 +475,14 @@ public class EmailGUI {
 	 * Creates a Dialog for creating/deleteing accounts and users
 	 * @param choice : 1 for add user, 2 for delete user, 3 for add account, 4 for delete account 
 	 */
-	public void ManageDialog(int choice) {
-		JFrame dialog = new JFrame();
+	public void ManageDialog(final int choice) {
+		final JFrame dialog = new JFrame();
 		dialog.getContentPane().setLayout(new GridLayout(4,2));
 		
-		JTextField name = new JTextField();
-		JTextField login1 = new JTextField();
-		JTextField login2 = new JTextField();
-		CheckboxGroup site = new CheckboxGroup();;
+		final JTextField name = new JTextField();
+		final JTextField login1 = new JTextField();
+		final JTextField login2 = new JTextField();
+		final CheckboxGroup site = new CheckboxGroup();;
 		String btnText;
 		
 		//Set the go button text to Create or delete
@@ -553,7 +553,7 @@ public class EmailGUI {
 						CopyOfMasterSite.getUser(CurrentUser.getUserName()).addAccount(name.getText(), sitestr);
 						
 						//add new account to accounts menu
-						JMenuItem item = new JMenuItem(name.getText()+ sitestr);
+						final JMenuItem item = new JMenuItem(name.getText()+ sitestr);
 						item.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								lblActiveAccount.setText(item.getText());

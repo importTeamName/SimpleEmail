@@ -1,4 +1,4 @@
-//package com.importteamname.simpleemail;
+package com.importteamname.simpleemail;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

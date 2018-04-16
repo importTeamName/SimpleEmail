@@ -4,7 +4,7 @@
  * @author Daniel Weber, Alex Porter, Clay Turner
  */
 
-//package com.importteamname.simpleemail;
+package com.importteamname.simpleemail;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -84,7 +84,7 @@ public class ComposeMessage {
         subject.setBounds(89, 82, 484, 26);
         panel.add(subject);
         
-        JTextPane textPane = new JTextPane();
+        final JTextPane textPane = new JTextPane();
         textPane.setBounds(0, 158, 600, 280);
         frame.getContentPane().add(textPane);
         
