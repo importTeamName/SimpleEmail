@@ -101,5 +101,16 @@ public class Helper {
         return message;
     }
 
+    public Message createDummyMessage2() {
+        
+        LocalDateTime date = LocalDateTime.now();
+        Account account = new Account("Erin@remote");
+        Vector<String> receivers = new Vector<String>();
+        receivers.add("Frank@remote");
+        receivers.add("Grace@remote");
+        Message message = new Message("Another message", date, "Another body", account, receivers);
+        return message;
+    }
+
 
 }

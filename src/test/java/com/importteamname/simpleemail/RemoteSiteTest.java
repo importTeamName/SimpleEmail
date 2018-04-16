@@ -18,6 +18,7 @@ public class RemoteSiteTest {
     private User charlie = new User("Charlie", "password");
     private Vector<User> users = new Vector<User>();
 
+
     public RemoteSiteTest() {
         users.add(alice);
         users.add(bob);
@@ -25,53 +26,77 @@ public class RemoteSiteTest {
         remoteSite.users = users;
     }
 
+
     @Test
     public void userExistsTest() {
         Assert.assertTrue(remoteSite.userExists("Alice"));
+        Assert.assertTrue(remoteSite.userExists("Bob"));
     }
+
 
     @Test
     public void validatePasswordTest() {
-
         Assert.assertTrue(!remoteSite.validatePassword("Alice", "wrongPassword"));
         Assert.assertTrue(remoteSite.validatePassword("Alice", "password"));
-
     }
 
     
     @Test
     public void createUserTest() {
-
         remoteSite.createUser("David", "password");
         Assert.assertTrue(remoteSite.getUser("David") != null);
 
+        remoteSite.createUser("Erin", "slightlyBetterPassword");
+        Assert.assertTrue(remoteSite.getUser("Erin") != null);
     }
+
 
     @Test
     public void removeUserTest() {
         remoteSite.removeUser("Alice");
         Assert.assertTrue(!remoteSite.users.contains(alice));
+
+        remoteSite.removeUser("Bob");
+        Assert.assertTrue(!remoteSite.users.contains(bob));
     }
 
-    @Test
-    public void getUserAccountsTest() {
 
+    @Test
+    public void getUsersAccountsTest() {
         Vector<Account> actualAccounts = remoteSite.getUsersAccounts(alice);
         Vector<Account> expectedAccounts = new Vector<Account>();
         expectedAccounts.add(new Account("alice@local"));
         expectedAccounts.add(new Account("alice@remote"));
         Assert.assertTrue(helper.equalAccounts(actualAccounts, expectedAccounts));
-
     }
+
+
+    @Test 
+    public void getNullUsersAccountsTest() {
+        Vector<Account> actualAccounts = remoteSite.getUsersAccounts((User)null);
+        Vector<Account> expectedAccounts = new Vector<Account>();
+        Assert.assertTrue(helper.equalAccounts(actualAccounts, expectedAccounts));
+    }
+
 
     // @Test
     // public void getUserTest() {
-
-    //     Assert.assertTrue(helper.equalUsers(remoteSite.getUser("Alice"), alice));
-
-
+    //     Assert.assertTrue(helper.equalUsers(remoteSite.getUser("Charlie"), charlie));
     // }
 
 
+    @Test
+    public void getNullUserTest() {
+        Assert.assertEquals(remoteSite.getUser(""), null);
+    }
 
+
+    @Test
+    public void uniqueCheckTest() {
+        remoteSite.createUser("Frank", "password");
+        Assert.assertTrue(!remoteSite.UniqueCheck("Frank@local"));
+        Assert.assertTrue(remoteSite.UniqueCheck("fakeName@fakeDomain"));
+    }
+
+    
 }

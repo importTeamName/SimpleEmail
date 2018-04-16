@@ -111,16 +111,7 @@ public class ComposeMessage {
         			CurrentAccount.getSent().addMessageToMailBox(m);
         			
         			//Add new message to other's mailbox
-                    for (String _rec : receivers) {
-                    	for(User u : CopyOfMasterSite.getUsers()) {
-                    		for (Account _acc: u.getAccounts()) {
-                    			if (_acc.getAccountname().equals(_rec)) {
-                    				MailBox inbox = _acc.getInbox();
-                    				inbox.addMessageToMailBox(m);
-                    			}
-                    		}
-                    	}
-                    }
+                    addMessageToRecipientsInbox(m, receivers);
         			frame.dispose();
         		}
         	}
@@ -131,6 +122,26 @@ public class ComposeMessage {
         JLabel lblToInstructions = new JLabel("To send to 1+ people, comma separate addresses, no spaces");
         lblToInstructions.setBounds(133, 13, 421, 14);
         panel_1.add(lblToInstructions);
+    }
+    
+    /**
+     * Add message to recipient's inbox
+     * @param message: Message to be sent to recipients
+     * @param receivers: vector of all recipients of the message
+     */
+
+    public void addMessageToRecipientsInbox(Message message, Vector<String> receivers) {
+
+        for (String rec : receivers) {
+            for(User user : CopyOfMasterSite.getUsers()) {
+                for (Account acc: user.getAccounts()) {
+                    if (acc.getAccountname().equals(rec)) {
+                        MailBox inbox = acc.getInbox();
+                        inbox.addMessageToMailBox(message);
+                    }
+                }
+            }
+        }
     }
     
     /**

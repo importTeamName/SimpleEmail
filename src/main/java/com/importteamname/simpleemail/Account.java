@@ -25,38 +25,6 @@ public class Account {
 		mailBoxList.add(new MailBox("Inbox"));
 		mailBoxList.add(new MailBox("Trash"));
 	}
-	/**
-	 *  Method for creating new mailboxes
-	 * -Intakes a string for the name of new mailbox
-	 * @param mailboxname name of new mailbox
-	 */
-	public void addMailbox(String mailboxname)
-	{
-		mailBoxList.add(new MailBox(mailboxname));
-	}
-	
-	/**
-	 * Method for removing mailboxes
-	 * -inputs a string to search for the mailbox to remove
-	 * -does not allow removal of the three initial mailboxes
-	 * @param mailboxname name of mailbox to remove
-	 */
-	public void deleteMailbox(String mailboxname)
-	{
-		if(mailboxname.equals("Inbox") || mailboxname.equals("Trash") || mailboxname.equals("Sent"))
-		{
-			return;
-		}
-		int i = 0;
-		for(MailBox m : mailBoxList)
-		{
-			if(m.getName().equals(mailboxname))
-			{
-				mailBoxList.remove(i);
-			}
-			i++;
-		}
-	}
 	
 	/**
 	 * Getter function for accountname

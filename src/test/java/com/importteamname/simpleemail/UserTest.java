@@ -15,7 +15,6 @@ public class UserTest {
 
     @Test
     public void newUserShouldHaveLocalandRemoteAccounts() {
-
         Account expectedLocalAccount = new Account("Alice@local");
         Account expectedRemoteAccount = new Account("Alice@remote");
         Account actualLocalAccount = alice.getAccounts().get(0);
@@ -23,24 +22,45 @@ public class UserTest {
 
         Assert.assertTrue(helper.equalAccount(actualLocalAccount, expectedLocalAccount));
         Assert.assertTrue(helper.equalAccount(actualRemoteAccount, expectedRemoteAccount));
-
     }
 
     @Test
     public void addAccountTest() {
-
-        alice.addAccount("Alice", "uah.edu");
+        alice.addAccount("Alice", "@uah.edu");
         Account expectedNewAccount = new Account("Alice@uah.edu");
         Account actualNewAccount = alice.getAccount("Alice@uah.edu");
 
         Assert.assertEquals(alice.getAccounts().size(), 3);
-        //Assert.assertTrue(helper.equalAccount(expectedNewAccount, actualNewAccount));
-
+        Assert.assertTrue(helper.equalAccount(expectedNewAccount, actualNewAccount));
     }
 
     @Test
     public void removeAccountTest() {
         alice.removeAccount("Alice@local");
+        Assert.assertEquals(alice.getAccount("Alice@local"), null);
     }
+
+    @Test
+    public void getAccountTest() {
+        alice.addAccount("Alice", "@gmail.com");
+        Account expectedAccount = new Account("Alice@gmail.com");
+        Account actualAccount = alice.getAccount("Alice@gmail.com");
+        Assert.assertTrue(helper.equalAccount(expectedAccount, actualAccount));
+    }
+
+    // @Test
+    // public void addMessageToUserTest() {
+
+    //     Message message = helper.createDummyMessage();
+    //     User bob = new User("Bob", "password");
+    //     Account bobsAccount = bob.getAccount("Bob@local");
+
+    //     // Sending message to Bob
+    //     alice.addMessageToUser(bobsAccount, message);
+
+    //     // Check that message is sent to Bob's inbox
+    //     Assert.assertTrue(bobsAccount.getInbox().getMessages().contains(message));
+
+    // }
 
 }

@@ -32,5 +32,31 @@ public class AccountTest {
         Assert.assertTrue(helper.equalMailboxes(account.getTrash(), trash));
     }
 
+    @Test
+    public void addMessageToAccountTest() {
+
+        Message message1 = helper.createDummyMessage();
+        account.addMessageToAccount(message1);
+        Assert.assertTrue(account.getInbox().getMessages().contains(message1));
+
+        Message message2 = helper.createDummyMessage();
+        account.addMessageToAccount(message2);
+        Assert.assertTrue(account.getInbox().getMessages().contains(message2));
+
+
+    }
+
+    @Test
+    public void addNullMessageToAccountTest() {
+
+        Message message1 = null;
+        try {
+            account.addMessageToAccount(message1);
+        } catch(Exception e) {
+            Assert.fail("addMessageToAccount could not accept a null object");
+        }
+
+    }
+
 
 }

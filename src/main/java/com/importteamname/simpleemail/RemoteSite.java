@@ -86,31 +86,6 @@ public class RemoteSite {
 	}
 		
 	/**
-	 * This function will act as a 'listener' to receive messages and send them to the correct accounts
-	 * @param m Message to add to the correct account
-	 */
-	public void addMessage(Message m)
-	{
-		Vector<String> rec = m.getReceivers();
-		// For each user there is 
-		for(User tempUser : users)
-		{
-			// For each account in that user
-			for(Account userAcc : tempUser.getAccounts())
-			{
-				//For each account the message is being sent to 
-				for(String destAccs : rec)
-				{
-					if(destAccs.equals(userAcc.getAccountname()))
-					{
-						tempUser.addMessageToUser(userAcc, m);
-					}
-				}
-				
-			}
-		}
-	}
-	/**
 	 * Gets all the users being stored
 	 * @return a Vector of the Users 
 	 */
@@ -123,9 +98,13 @@ public class RemoteSite {
 	 * @param tempUser user that is fetching its accounts
 	 * @return a Vector of the accounts 
 	 */
-	public Vector<Account> getUsersAccounts(User tempUser)
+    public Vector<Account> getUsersAccounts(User tempUser)
+
 	{
-		Vector<Account> tempAccounts = new Vector<Account>();
+        Vector<Account> tempAccounts = new Vector<Account>();
+        if (tempUser == null) {
+            return tempAccounts;
+        }
 		for(User u : users)
 		{
 			if(u.getUserName().equals(tempUser.getUserName()))
