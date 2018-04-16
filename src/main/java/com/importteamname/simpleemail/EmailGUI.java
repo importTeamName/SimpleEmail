@@ -16,10 +16,12 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.JScrollPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 import java.awt.CardLayout;
 import java.awt.Checkbox;
@@ -33,6 +35,11 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JList;
 import java.util.ArrayList;
+import javax.swing.JSeparator;
+import javax.swing.JPasswordField;
+import javax.swing.GroupLayout;
+
+
 
 public class EmailGUI {
 
@@ -60,9 +67,428 @@ public class EmailGUI {
 	 */
 	public EmailGUI(RemoteSite remSite) {
 		CopyOfMasterSite = remSite;
-		initialize();
+        //initialize();
+        initLoginScreen();
+        initMailboxScreen();
 		frame.setVisible(true);
-	}
+    }
+    
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initLoginScreen() {
+
+        frame = new JFrame();
+		frame.setTitle("Simple Email by ImportTeamName");
+		frame.setBounds(100, 100, 700, 380);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new CardLayout(0, 0));
+
+
+        /* 
+		 * ---Stuff on the Login Screen--- 
+		 */        
+        JPanel LoginScreen = new javax.swing.JPanel();
+        final JTextField UserText = new javax.swing.JTextField();
+        JLabel lblUsername = new javax.swing.JLabel();
+        JSeparator jSeparator1 = new javax.swing.JSeparator();
+        JLabel lblpassword = new javax.swing.JLabel();
+        JSeparator jSeparator2 = new javax.swing.JSeparator();
+        JButton btnadduser = new javax.swing.JButton();
+        JButton btndeleteuser = new javax.swing.JButton();
+        JButton btnLogin = new javax.swing.JButton();
+        final JPasswordField PasswordText = new javax.swing.JPasswordField();
+
+        LoginScreen.setBackground(new java.awt.Color(50, 56, 72));
+
+        UserText.setBackground(new java.awt.Color(50, 56, 72));
+        UserText.setForeground(new java.awt.Color(255, 255, 255));
+        //UserText.setText("UserText");
+        UserText.setBorder(null);
+
+        lblUsername.setForeground(new java.awt.Color(236, 125, 244));
+        lblUsername.setText("Account");
+
+        lblpassword.setForeground(new java.awt.Color(236, 125, 244));
+        lblpassword.setText("Password");
+
+        btnadduser.setBackground(new java.awt.Color(226,123,242));
+        btnadduser.setForeground(new java.awt.Color(226, 123, 242));
+        btnadduser.setText("Add User");
+        btnadduser.setActionCommand("Add User  ");
+        btnadduser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(236, 125, 244)));
+        btnadduser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ManageDialog(1);
+			}
+		});
+
+        btndeleteuser.setBackground(new java.awt.Color(50, 56, 72));
+        btndeleteuser.setForeground(new java.awt.Color(226, 123, 242));
+        btndeleteuser.setText("Delete User");
+        btndeleteuser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(226, 123, 242)));
+        btndeleteuser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ManageDialog(2);
+			}
+		});
+
+        btnLogin.setBackground(Color.decode("#E27BF2"));
+        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogin.setContentAreaFilled(true);
+        btnLogin.setText("Login");
+        btnLogin.setBorder(null);
+        btnLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//check for valid login
+				if(CopyOfMasterSite.userExists(UserText.getText())) {
+					if(CopyOfMasterSite.validatePassword(UserText.getText(), PasswordText.getText()))
+					{
+						//Login to the user
+						CurrentUser = CopyOfMasterSite.getUser(UserText.getText());
+						StartMailbox();
+					}
+					else {
+						JOptionPane.showMessageDialog(frame,"Incorrect Username or Password");
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(frame,"User does not exist");
+				}
+				
+			}
+		});
+
+        PasswordText.setBackground(new java.awt.Color(50, 56, 72));
+        PasswordText.setForeground(new java.awt.Color(255, 255, 255));
+        //PasswordText.setText("PasswordText");
+        PasswordText.setBorder(null);
+
+        javax.swing.GroupLayout LoginScreenLayout = new javax.swing.GroupLayout(LoginScreen);
+        LoginScreen.setLayout(LoginScreenLayout);
+        LoginScreenLayout.setHorizontalGroup(
+            LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LoginScreenLayout.createSequentialGroup()
+                .addGroup(LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(LoginScreenLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnadduser, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btndeleteuser, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(LoginScreenLayout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addGroup(LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jSeparator2)
+                            .addComponent(lblpassword)
+                            .addComponent(jSeparator1)
+                            .addComponent(lblUsername)
+                            .addComponent(UserText)
+                            .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PasswordText, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE))))
+                .addContainerGap(131, Short.MAX_VALUE))
+        );
+        LoginScreenLayout.setVerticalGroup(
+            LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LoginScreenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(LoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnadduser, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btndeleteuser, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(47, 47, 47)
+                .addComponent(lblUsername)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(UserText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblpassword)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PasswordText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
+        );
+
+        frame.getContentPane().add(LoginScreen);
+
+        /* 
+		 * ---Stuff on the MailBox Screen--- 
+		 */
+
+
+    }
+
+    private void initMailboxScreen() {
+
+        JSeparator jSeparator3 = new javax.swing.JSeparator();
+        JPanel MailboxScreen = new javax.swing.JPanel();
+        JButton btnadduser = new javax.swing.JButton();
+        JButton btndeleteuser = new javax.swing.JButton();
+        JButton btnlogout = new javax.swing.JButton();
+        JLabel jLabel1 = new javax.swing.JLabel();
+        JLabel jLabel2 = new javax.swing.JLabel();
+        JButton btnInbox = new javax.swing.JButton();
+        JButton btnSent = new javax.swing.JButton();
+        JButton btnTrash = new javax.swing.JButton();
+        JLabel jLabel3 = new javax.swing.JLabel();
+        JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
+        JList jList1 = new javax.swing.JList<>();
+        JButton btnChooseAccount = new javax.swing.JButton();
+        JButton btnReply = new javax.swing.JButton();
+        JButton btnDelete = new javax.swing.JButton();
+        JButton btnCompose = new javax.swing.JButton();
+        JLabel jLabel4 = new javax.swing.JLabel();
+
+        MailboxScreen.setBackground(new java.awt.Color(50, 56, 72));
+
+        btnadduser.setBackground(new java.awt.Color(50, 56, 72));
+        btnadduser.setForeground(new java.awt.Color(255, 255, 255));
+        btnadduser.setText("Add Account");
+        btnadduser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(226, 123, 242)));
+
+        btndeleteuser.setBackground(new java.awt.Color(50, 56, 72));
+        btndeleteuser.setForeground(new java.awt.Color(255, 255, 255));
+        btndeleteuser.setText("Delete User");
+        btndeleteuser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(226, 123, 242)));
+
+        btnlogout.setBackground(new java.awt.Color(50, 56, 72));
+        btnlogout.setForeground(new java.awt.Color(255, 255, 255));
+        btnlogout.setText("Logout");
+        btnlogout.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(226, 123, 242)));
+		btnlogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LogOut();
+			}
+		});
+
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(244, 127, 245));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Welcome, User");
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Current Account:");
+
+        btnInbox.setBackground(new java.awt.Color(160, 112, 246));
+        btnInbox.setForeground(new java.awt.Color(255, 255, 255));
+        btnInbox.setText("Inbox");
+        btnInbox.setActionCommand("");
+        btnInbox.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        btnInbox.setBorderPainted(false);
+		btnInbox.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Check that there is an account selected
+				if(CurrentUser.getAccounts().isEmpty()) {
+					JOptionPane.showMessageDialog(frame,"Must have an account to view emails");
+				}
+				else if(CurrentAccount == null) {
+					JOptionPane.showMessageDialog(frame,"Must have an account selected to view emails");
+				}
+				else {
+					SetEmailView(1);
+				}
+			}
+		});
+
+        btnSent.setBackground(new java.awt.Color(98, 117, 246));
+        btnSent.setForeground(new java.awt.Color(255, 255, 255));
+        btnSent.setText("Sent");
+        btnSent.setActionCommand("");
+        btnSent.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        btnSent.setBorderPainted(false);
+        btnSent.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Check that there is an account selected
+				if(CurrentUser.getAccounts().isEmpty()) {
+					JOptionPane.showMessageDialog(frame,"Must have an account to view emails");
+				}
+				else if(CurrentAccount == null) {
+					JOptionPane.showMessageDialog(frame,"Must have an account selected to view emails");
+				}
+				else {
+					SetEmailView(2);
+				}
+			}
+		});
+
+        btnTrash.setBackground(new java.awt.Color(107, 194, 250));
+        btnTrash.setForeground(new java.awt.Color(255, 255, 255));
+        btnTrash.setText("Trash");
+        btnTrash.setActionCommand("");
+        btnTrash.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        btnTrash.setBorderPainted(false);
+        btnTrash.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Check that there is an account selected
+				if(CurrentUser.getAccounts().isEmpty()) {
+					JOptionPane.showMessageDialog(frame,"Must have an account to view emails");
+				}
+				else if(CurrentAccount == null) {
+					JOptionPane.showMessageDialog(frame,"Must have an account selected to view emails");
+				}
+				else {
+					SetEmailView(3);
+				}
+			}
+		});
+
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("<html>To open an email, select with mouse and press enter</html>");
+
+        jList1.setBackground(new java.awt.Color(50, 56, 72));
+        jList1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(244, 127, 245)));
+        jList1.setForeground(new java.awt.Color(255, 255, 255));
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        btnChooseAccount.setBackground(new java.awt.Color(50, 56, 72));
+        btnChooseAccount.setForeground(new java.awt.Color(255, 255, 255));
+        btnChooseAccount.setText("Accounts Menu");
+        btnChooseAccount.setActionCommand("");
+        btnChooseAccount.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(226, 123, 242)));
+
+        btnReply.setBackground(new java.awt.Color(50, 56, 72));
+        btnReply.setForeground(new java.awt.Color(255, 255, 255));
+        btnReply.setText("Reply");
+        btnReply.setActionCommand("");
+        btnReply.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(226, 123, 242)));
+        btnReply.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Can't reply to things in the Trash mailbox
+				int[] index = list.getSelectedIndices();
+				if (!noEmails && !CurrentMailBox.getName().equals("Trash") && index.length > 0) {
+					ReplyMessages(index);
+				}
+			}
+			
+		});
+
+        btnDelete.setBackground(new java.awt.Color(50, 56, 72));
+        btnDelete.setForeground(new java.awt.Color(255, 255, 255));
+        btnDelete.setText("Delete");
+        btnDelete.setActionCommand("");
+        btnDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(226, 123, 242)));
+        btnDelete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int[] index = list.getSelectedIndices();
+				if (!noEmails && index.length > 0) {
+					DeleteMessages(index);
+				}
+			}
+			
+		});
+
+        btnCompose.setBackground(new java.awt.Color(50, 56, 72));
+        btnCompose.setForeground(new java.awt.Color(255, 255, 255));
+        btnCompose.setText("Compose");
+        btnCompose.setActionCommand("");
+        btnCompose.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(226, 123, 242)));
+		btnCompose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Check that there is an account selected
+				if(CurrentUser.getAccounts().isEmpty()) {
+					JOptionPane.showMessageDialog(frame,"Must have an account to send emails");
+				}
+				else if(CurrentAccount == null) {
+					JOptionPane.showMessageDialog(frame,"Must have an account selected to send emails");
+				}
+				else {
+					// Create a new compose message dialog
+					new ComposeMessage(CurrentAccount, CopyOfMasterSite);
+				}
+			}
+        });
+        
+
+        jLabel4.setBackground(new java.awt.Color(35, 35, 35));
+        jLabel4.setForeground(new java.awt.Color(244, 127, 245));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("jLabel4");
+
+        javax.swing.GroupLayout MailboxScreenLayout = new javax.swing.GroupLayout(MailboxScreen);
+        MailboxScreen.setLayout(MailboxScreenLayout);
+        MailboxScreenLayout.setHorizontalGroup(
+            MailboxScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MailboxScreenLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(MailboxScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MailboxScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                        .addComponent(btnTrash, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                        .addComponent(btnSent, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                        .addComponent(btnInbox, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                        .addComponent(btnChooseAccount, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(MailboxScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MailboxScreenLayout.createSequentialGroup()
+                        .addComponent(btnadduser, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btndeleteuser, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnlogout, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(MailboxScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(MailboxScreenLayout.createSequentialGroup()
+                            .addComponent(btnCompose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnReply, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+        MailboxScreenLayout.setVerticalGroup(
+            MailboxScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MailboxScreenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(MailboxScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnadduser, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btndeleteuser, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnlogout, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(MailboxScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnChooseAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReply, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCompose, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(MailboxScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MailboxScreenLayout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnInbox, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(btnSent, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnTrash, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        frame.getContentPane().add(MailboxScreen, "name_443823897215886");
+
+    }// </editor-fold>
+
 
 	/**
 	 * Initialize the contents of the frame.
