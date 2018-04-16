@@ -79,12 +79,6 @@ public class RemoteSiteTest {
     }
 
 
-    // @Test
-    // public void getUserTest() {
-    //     Assert.assertTrue(helper.equalUsers(remoteSite.getUser("Charlie"), charlie));
-    // }
-
-
     @Test
     public void getNullUserTest() {
         Assert.assertEquals(remoteSite.getUser(""), null);
@@ -96,6 +90,18 @@ public class RemoteSiteTest {
         remoteSite.createUser("Frank", "password");
         Assert.assertTrue(!remoteSite.UniqueCheck("Frank@local"));
         Assert.assertTrue(remoteSite.UniqueCheck("fakeName@fakeDomain"));
+    }
+
+    @Test
+    public void addMessageToRecipientsInboxTest() {
+
+        // Recipients include bob@remote and charlie@remote
+        Message message = helper.createDummyMessage();
+        remoteSite.addMessageToRecipientsInbox(message);
+        Assert.assertTrue(bob.getAccount("Bob@remote").getInbox().getMessages().contains(message));
+        Assert.assertTrue(charlie.getAccount("Charlie@remote").getInbox().getMessages().contains(message));
+
+
     }
 
     

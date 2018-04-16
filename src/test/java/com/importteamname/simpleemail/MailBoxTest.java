@@ -2,7 +2,6 @@ package com.importteamname.simpleemail;
 
 import org.junit.Test;
 import org.junit.Assert;
-import java.util.Vector;
 
 /**
  * Tests for {@link MailBox}.

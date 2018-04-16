@@ -1,6 +1,5 @@
 package com.importteamname.simpleemail;
 
-import org.junit.Test;
 
 /**
  * Tests for {@link ReadMessage}.

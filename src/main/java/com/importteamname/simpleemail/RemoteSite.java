@@ -144,5 +144,24 @@ public class RemoteSite {
 			}
 		}
 		return true;
-	}
+    }
+    
+    /**
+     * Add message to recipient's inbox
+     * @param message: Message to be sent to recipients
+     */
+    public void addMessageToRecipientsInbox(Message message) {
+
+        for (String rec : message.getReceivers()) {
+            for(User user : this.users) {
+                for (Account acc: user.getAccounts()) {
+                    if (acc.getAccountname().equals(rec)) {
+                        MailBox inbox = acc.getInbox();
+                        inbox.addMessageToMailBox(message);
+                    }
+                }
+            }
+        }
+    }
+    
 }

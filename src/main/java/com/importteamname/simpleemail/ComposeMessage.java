@@ -111,7 +111,7 @@ public class ComposeMessage {
         			CurrentAccount.getSent().addMessageToMailBox(m);
         			
         			//Add new message to other's mailbox
-                    addMessageToRecipientsInbox(m, receivers);
+                    CopyOfMasterSite.addMessageToRecipientsInbox(m);
         			frame.dispose();
         		}
         	}
@@ -124,25 +124,6 @@ public class ComposeMessage {
         panel_1.add(lblToInstructions);
     }
     
-    /**
-     * Add message to recipient's inbox
-     * @param message: Message to be sent to recipients
-     * @param receivers: vector of all recipients of the message
-     */
-
-    public void addMessageToRecipientsInbox(Message message, Vector<String> receivers) {
-
-        for (String rec : receivers) {
-            for(User user : CopyOfMasterSite.getUsers()) {
-                for (Account acc: user.getAccounts()) {
-                    if (acc.getAccountname().equals(rec)) {
-                        MailBox inbox = acc.getInbox();
-                        inbox.addMessageToMailBox(message);
-                    }
-                }
-            }
-        }
-    }
     
     /**
      * Sets the message to be a reply

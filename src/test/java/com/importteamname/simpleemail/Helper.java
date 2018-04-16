@@ -3,7 +3,6 @@ package com.importteamname.simpleemail;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Vector;
-import org.junit.Test;
 
 /**
  * Helper functions to help compare objects for tests

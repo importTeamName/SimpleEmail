@@ -48,19 +48,4 @@ public class UserTest {
         Assert.assertTrue(helper.equalAccount(expectedAccount, actualAccount));
     }
 
-    // @Test
-    // public void addMessageToUserTest() {
-
-    //     Message message = helper.createDummyMessage();
-    //     User bob = new User("Bob", "password");
-    //     Account bobsAccount = bob.getAccount("Bob@local");
-
-    //     // Sending message to Bob
-    //     alice.addMessageToUser(bobsAccount, message);
-
-    //     // Check that message is sent to Bob's inbox
-    //     Assert.assertTrue(bobsAccount.getInbox().getMessages().contains(message));
-
-    // }
-
 }
