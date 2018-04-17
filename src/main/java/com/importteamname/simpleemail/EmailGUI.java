@@ -543,7 +543,7 @@ public class EmailGUI {
 					{
 						if(CopyOfMasterSite.validatePassword(name.getText(), login1.getText()))
 						{
-							int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you wish to delete this account?", "Confirm Choice", 2);
+							int result = JOptionPane.showConfirmDialog(dialog, "Are you sure you wish to delete this user?", "Confirm Choice", 2);
 							if (result == JOptionPane.YES_OPTION) {
 								//Call to delete user
 								CopyOfMasterSite.removeUser(name.getText());
