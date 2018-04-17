@@ -8,6 +8,7 @@ package com.importteamname.simpleemail;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
@@ -40,6 +41,7 @@ public class ComposeMessage {
     	this.CopyOfMasterSite = CopyOfMasterSite;
         initialize();
         frame.setVisible(true);
+        frame.setResizable(false);
     }
 
     /**
@@ -84,8 +86,10 @@ public class ComposeMessage {
         subject.setBounds(89, 82, 484, 26);
         panel.add(subject);
         
-        final JTextPane textPane = new JTextPane();
+        final JTextArea textPane = new JTextArea();
         textPane.setBounds(0, 158, 600, 280);
+        textPane.setWrapStyleWord(true);
+        textPane.setLineWrap(true);
         frame.getContentPane().add(textPane);
         
         JPanel panel_1 = new JPanel();

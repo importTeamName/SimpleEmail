@@ -17,7 +17,7 @@ public class SimpleEmail {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					new EmailGUI(masterSite);
+					EmailGUI emailGUI = new EmailGUI(masterSite);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
