@@ -475,7 +475,7 @@ public class EmailGUI {
 			for (int i = 0; i < messages.size(); i++) {
 				if(choice == 2)//sent
 				{
-					listarr[i] = "To: " + messages.get(i).getSender().getAccountname() + "     |     Subject: " + messages.get(i).getSubject();
+					listarr[i] = "To: " + messages.get(i).getReceiversString() + "     |     Subject: " + messages.get(i).getSubject();
 				}
 				else if(choice == 3)// Recv
 				{
