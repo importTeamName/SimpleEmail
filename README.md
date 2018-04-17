@@ -18,10 +18,6 @@ java target/simpleemail-1.0-SNAPSHOT.jar "com.importteamname.simpleemail.SimpleE
 
 This project uses maven.
 
-It should already contain the eclipse project files, so you can simply open
-project and select the directory containing pom.xml
-
-If that does not work, you can import the project.
 File > import > Maven > existing maven project (select directory containing Pom.xml)
 
 
