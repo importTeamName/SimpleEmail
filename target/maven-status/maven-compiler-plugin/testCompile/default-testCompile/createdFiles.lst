@@ -1,0 +1,10 @@
+com/importteamname/simpleemail/EmailGUITest.class
+com/importteamname/simpleemail/AccountTest.class
+com/importteamname/simpleemail/MessageTest.class
+com/importteamname/simpleemail/RemoteSiteTest.class
+com/importteamname/simpleemail/UserTest.class
+com/importteamname/simpleemail/Helper.class
+com/importteamname/simpleemail/ReadMessageTest.class
+com/importteamname/simpleemail/ComposeMessageTest.class
+com/importteamname/simpleemail/SimpleEmailTest.class
+com/importteamname/simpleemail/MailBoxTest.class
