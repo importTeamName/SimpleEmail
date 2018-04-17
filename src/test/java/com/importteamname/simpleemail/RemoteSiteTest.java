@@ -65,8 +65,8 @@ public class RemoteSiteTest {
     public void getUsersAccountsTest() {
         Vector<Account> actualAccounts = remoteSite.getUsersAccounts(alice);
         Vector<Account> expectedAccounts = new Vector<Account>();
-        expectedAccounts.add(new Account("alice@local"));
-        expectedAccounts.add(new Account("alice@remote"));
+        expectedAccounts.add(new Account("alice@uah.edu"));
+        expectedAccounts.add(new Account("alice@gmail.com"));
         Assert.assertTrue(helper.equalAccounts(actualAccounts, expectedAccounts));
     }
 
@@ -88,18 +88,18 @@ public class RemoteSiteTest {
     @Test
     public void uniqueCheckTest() {
         remoteSite.createUser("Frank", "password");
-        Assert.assertTrue(!remoteSite.UniqueCheck("Frank@local"));
+        Assert.assertTrue(!remoteSite.UniqueCheck("Frank@uah.edu"));
         Assert.assertTrue(remoteSite.UniqueCheck("fakeName@fakeDomain"));
     }
 
     @Test
     public void addMessageToRecipientsInboxTest() {
 
-        // Recipients include bob@remote and charlie@remote
+        // Recipients include bob@gmail.com and charlie@gmail.com
         Message message = helper.createDummyMessage();
         remoteSite.addMessageToRecipientsInbox(message);
-        Assert.assertTrue(bob.getAccount("Bob@remote").getInbox().getMessages().contains(message));
-        Assert.assertTrue(charlie.getAccount("Charlie@remote").getInbox().getMessages().contains(message));
+        Assert.assertTrue(bob.getAccount("Bob@gmail.com").getInbox().getMessages().contains(message));
+        Assert.assertTrue(charlie.getAccount("Charlie@gmail.com").getInbox().getMessages().contains(message));
 
 
     }

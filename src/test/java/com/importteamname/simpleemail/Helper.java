@@ -92,10 +92,10 @@ public class Helper {
     public Message createDummyMessage() {
         
         LocalDateTime date = LocalDateTime.now();
-        Account account = new Account("Alice@remote");
+        Account account = new Account("Alice@gmail.com");
         Vector<String> receivers = new Vector<String>();
-        receivers.add("Bob@remote");
-        receivers.add("Charlie@remote");
+        receivers.add("Bob@gmail.com");
+        receivers.add("Charlie@gmail.com");
         Message message = new Message("Subject", date, "Body of message", account, receivers);
         return message;
     }
@@ -103,10 +103,10 @@ public class Helper {
     public Message createDummyMessage2() {
         
         LocalDateTime date = LocalDateTime.now();
-        Account account = new Account("Erin@remote");
+        Account account = new Account("Erin@gmail.com");
         Vector<String> receivers = new Vector<String>();
-        receivers.add("Frank@remote");
-        receivers.add("Grace@remote");
+        receivers.add("Frank@gmail.com");
+        receivers.add("Grace@gmail.com");
         Message message = new Message("Another message", date, "Another body", account, receivers);
         return message;
     }

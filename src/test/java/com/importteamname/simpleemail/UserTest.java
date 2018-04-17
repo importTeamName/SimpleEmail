@@ -15,8 +15,8 @@ public class UserTest {
 
     @Test
     public void newUserShouldHaveLocalandRemoteAccounts() {
-        Account expectedLocalAccount = new Account("Alice@local");
-        Account expectedRemoteAccount = new Account("Alice@remote");
+        Account expectedLocalAccount = new Account("Alice@uah.edu");
+        Account expectedRemoteAccount = new Account("Alice@gmail.com");
         Account actualLocalAccount = alice.getAccounts().get(0);
         Account actualRemoteAccount = alice.getAccounts().get(1);
 
@@ -36,8 +36,8 @@ public class UserTest {
 
     @Test
     public void removeAccountTest() {
-        alice.removeAccount("Alice@local");
-        Assert.assertEquals(alice.getAccount("Alice@local"), null);
+        alice.removeAccount("Alice@uah.edu");
+        Assert.assertEquals(alice.getAccount("Alice@uah.edu"), null);
     }
 
     @Test

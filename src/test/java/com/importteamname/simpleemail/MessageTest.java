@@ -21,7 +21,7 @@ public class MessageTest {
     public void getReceiversStringTest() {
     
         String actual = message.getReceiversString();
-        String expected = "Bob@remote,Charlie@remote";
+        String expected = "Bob@gmail.com,Charlie@gmail.com";
         Assert.assertEquals(actual, expected);
     }
 

@@ -14,15 +14,15 @@ public class User {
 	/**
 	 * Constructor to create a new User
 	 * -User is created with a password and username
-	 * -starts with two accounts (user@local, user@remote)
+	 * -starts with two accounts (user@uah.edu, user@gmail.com)
 	 * @param user Users login username
 	 * @param pass Users password
 	 */
 	public User(String user, String pass){
 		username = user;
 		password = pass;
-		accounts.add(new Account(user+"@local"));
-		accounts.add(new Account(user+"@remote"));
+		accounts.add(new Account(user+"@uah.edu"));
+		accounts.add(new Account(user+"@gmail.com"));
 	}
 	
 	/**

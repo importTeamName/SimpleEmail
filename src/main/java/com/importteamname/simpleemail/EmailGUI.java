@@ -543,10 +543,10 @@ public class EmailGUI {
 					//Call to create account on the user that is associated with the open window
 					String sitestr;
 					if (site.getSelectedCheckbox().getLabel().equals("Local Site")) {
-						sitestr = "@local";
+						sitestr = "@uah.edu";
 					}
 					else {
-						sitestr = "@remote";
+						sitestr = "@gmail.com";
 					}
 					
 					if (CopyOfMasterSite.UniqueCheck(name.getText() + sitestr)) {
